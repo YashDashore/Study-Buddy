@@ -22,6 +22,8 @@ app.use(
 
 app.use(express.static("public")); // used to store pdfs, public assets
 
+app.use(cookieParser())
+
 app.get("/", (req, res) => {
   res.send("<h1>Home Page</h1>");
 });
