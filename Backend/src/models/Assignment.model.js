@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 const TaskSchema = new mongoose.Schema(
   {
     title: {
@@ -25,4 +26,7 @@ const TaskSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+TaskSchema.plugin(mongooseAggregatePaginate);
+
 export const Task = mongoose.model("Task", TaskSchema);

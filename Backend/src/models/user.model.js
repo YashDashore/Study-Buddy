@@ -18,6 +18,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    Organization :{
+      type: String,
+      required: true,
+    }
   },
   { timestamps: true }
 );
