@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    Profile_Photo : {
+      type: String,
+      required : true
+    },
     Organization: {
       type: String,
       required: true,
