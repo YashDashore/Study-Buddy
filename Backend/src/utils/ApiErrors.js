@@ -2,7 +2,7 @@
 // Error is predefined class in JS.
 class ApiError extends Error {
   // Values are required in constructor - Dena hi padegi values
-  constructor(statusCode, message = "Something went wrong", errors = []) {
+  constructor(statusCode, message = `Something went wrong`, errors = []) {
     super(message);
     this.statusCode = statusCode;
     this.message = message;
