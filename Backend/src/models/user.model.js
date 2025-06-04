@@ -29,6 +29,9 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    refresh_Token : {
+      type : String
+    }
   },
   { timestamps: true }
 );
@@ -36,7 +39,7 @@ const UserSchema = new mongoose.Schema(
 // Pre hook - Execute the code just before saving data. It contain middleware inside it
 UserSchema.pre("save", async function (next) {
   if (this.isModified("Password")) {
-    this.Password = bcrypt.hash(this.Password, 10);
+    this.Password = await bcrypt.hash(this.Password, 10);
   }
   next();
 });
