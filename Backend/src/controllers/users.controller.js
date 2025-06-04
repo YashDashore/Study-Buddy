@@ -15,6 +15,7 @@ import { AsyncHandler } from "../utils/AsyncHandler.js";
 import { User } from "../models/user.model.js";
 // This User is responsible for conatcting DB as it is made up using mongoose.
 import { UploadOnCloud } from "../utils/CloudinaryFileUpload.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 const RegisterUser = AsyncHandler(async (req, res) => {
     const { Username, Email, Password, Organization } = req.body;
@@ -65,6 +66,7 @@ const RegisterUser = AsyncHandler(async (req, res) => {
     if(!createdUser)
         throw new ApiError(500,"User not created")
 
+    return res.status(201).json(new ApiResponse(200,createdUser))
 })
 
 export { RegisterUser }
