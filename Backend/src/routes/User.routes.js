@@ -7,8 +7,21 @@ const router = Router();
 router.route("/register").post(RegisterUser) //For normal data/text/JSON etc.
 
 router.route("/registration").post(
-    Upload.single('Profile_Photo'),
+    (req, res, next) => {
+        // console.log(req)
+        console.log("🔥 Route Hit");
+        next();
+    },
+    Upload.fields([{
+        name: "Profile_Photo",
+        maxCount: 1
+    }]),    
     RegisterUser
 )
+
+router.route("/test").post((req, res) => {
+    console.log("✅ Test Route Hit");
+    res.send("OK");
+});
 
 export default router;

@@ -1,13 +1,14 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from 'cookie-parser'
+import router from './routes/User.routes.js'
 
 const app = express();
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN,
-  })
-);
+// app.use(
+//   cors({
+//     origin: process.env.CORS_ORIGIN,
+//   })
+// );
 app.use(
   express.json({
     limit: "20kb",
@@ -22,8 +23,9 @@ app.use(
 app.use(express.static("public")); // used to store pdfs, public assets
 app.use(cookieParser())
 
-import UserRouter from './routes/User.routes.js'
-app.use("/api/v1/users", UserRouter)
+console.log("INSIDE APP ")
+app.use("/api/v1/users", router)
+
 
 app.get("/", (req, res) => {
   res.send("<h1>Home Page</h1>");

@@ -15,6 +15,7 @@ const UploadOnCloud = async (FileOnServer) => {
     fs.unlinkSync(FileOnServer);
     return response.url;
   } catch (error) {
+    console.log("Errorrrrr");
     fs.unlinkSync(FileOnServer);
     return null;
   }

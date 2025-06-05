@@ -18,8 +18,11 @@ import { UploadOnCloud } from "../utils/CloudinaryFileUpload.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const RegisterUser = AsyncHandler(async (req, res) => {
-    const { Username, Email, Password, Organization } = req.body;
+    // console.log("FILES ====>", req.files);
+    // console.log("BODY ====>", req.body);
 
+    const { Username, Email, Password, Organization } = req.body;
+    console.log("Inside Controller , Body ======> ", req.body)
 
     // if(Username === ""){
     //     throw new ApiError(400,"Invalid Username")
@@ -30,43 +33,40 @@ const RegisterUser = AsyncHandler(async (req, res) => {
     ) {
         throw new ApiError(400, "All fields are required");
     }
-    // We can't use map bcoz it always returns an array()
 
-    // [Username, Email, Password, Organization].forEach((field) => {
-    //     if (field?.trim() === "") {
-    //         throw new ApiError(400, `${field} is required`);
-    //     }
-    // });  // for each always return undefined so don't wrap it inside if but include if inside it.
-
-    const existedUser = User.findOne({
+    const existedUser = await User.findOne({
         $or: [{ Username }, { Email }]
     })
 
-    // if (existedUser)
-    //     throw new ApiError(409, "User already Existed");
+    if (existedUser)
+        throw new ApiError(409, "User already Existed");
+
 
     const Profile_Photo_LocalPath = req.files?.Profile_Photo[0]?.path
+    // console.log(req.files); 
 
     if (!Profile_Photo_LocalPath) // Couldn't get image
-        throw new ApiError(400, "Image is required")
+        throw new ApiError(402, "Profile Image is required")
     console.log(req.body)
     const Profile_Photo = await UploadOnCloud(Profile_Photo_LocalPath)
 
-    if (Profile_Photo)
-        throw new ApiError(400, "Image is required")
+    if (!Profile_Photo)
+        throw new ApiError(401, "Image is required")
 
-    const user = User.create({
+    const user = await User.create({
         Username,
         Password,
         Email,
-        Profile_Photo: Profile_Photo?.url
+        Organization,
+        Profile_Photo: Profile_Photo
     })
+    console.log("user -> ", user);
 
     const createdUser = await User.findById(user._id).select("-Password -refresh_Token")
-    if(!createdUser)
-        throw new ApiError(500,"User not created")
+    if (!createdUser)
+        throw new ApiError(500, "User not created")
 
-    return res.status(201).json(new ApiResponse(200,createdUser))
+    return res.status(201).json(new ApiResponse(200, createdUser))
 })
 
 export { RegisterUser }
