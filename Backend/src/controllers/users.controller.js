@@ -1,4 +1,4 @@
-// Operations - 
+// Operations - Registration
 
 // get user details
 // vaildation - empty
@@ -7,7 +7,7 @@
 // Uploading it to cloudinary
 // Create user entry in db
 // check for user creation
-// remove password and tokens
+// remove password and tokens   
 // return response 
 
 import { ApiError } from "../utils/ApiErrors.js";
@@ -16,6 +16,23 @@ import { User } from "../models/user.model.js";
 // This User is responsible for conatcting DB as it is made up using mongoose.
 import { UploadOnCloud } from "../utils/CloudinaryFileUpload.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+
+const generateAccessAndRefreshTokens = async (user_Id) => {
+    try {
+        const user = await User.findById(user_Id);
+        const accessToken = user.generateAccessToken()
+        const refreshToken = user.generateRefreshToken()
+        user.refresh_Token = refreshToken;
+
+        // We updated the refreshToken but doesn't saved it till now - 
+        await user.save({ validateBeforeSave: false })
+
+        return { accessToken, refreshToken };
+    } catch (error) {
+        throw new ApiError(408,"Cannot generate access and refreshj tokens");
+    }
+}
+
 
 const RegisterUser = AsyncHandler(async (req, res) => {
     // console.log("FILES ====>", req.files);
@@ -69,4 +86,41 @@ const RegisterUser = AsyncHandler(async (req, res) => {
     return res.status(201).json(new ApiResponse(200, createdUser))
 })
 
+
+
+// Login user todos - 
+// 1. Get Username/email and password.
+// 2. Decrypt the db pass or encrypt exactly like db pass.
+// 3. Check existence
+// 4. 
+const loginUser = AsyncHandler(async (req, res) => {
+    const { Username, Email, Password } = req.body
+    console.log("Inside controller");
+    if (!Username && !Email)
+        throw new ApiError(402, "Enter either Username or Email");
+    const userExist = await User.findOne({
+        $or: [{ Username }, { Email }]
+    })
+    if (!userExist)
+        throw new ApiError(401, "Invalid Username or password");
+    const PasswordCheck = await userExist.isPasswordCorrect(Password);
+    if (!PasswordCheck)
+        throw new ApiError(405, "Invalid Password");
+    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(userExist._id);
+    // the previous user (refrence) we had does not access token so either update it or refresh it.
+    const UpdatedUser = await User.findById(userExist._id).select("-Password -refresh_Token");
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+    return res.status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options).
+        json(new ApiResponse(200, {
+            User: UpdatedUser, accessToken, refreshToken
+        },
+            "User successfully logged In"))
+})
+
 export { RegisterUser }
+export { loginUser }

@@ -9,11 +9,7 @@ const app = express();
 //     origin: process.env.CORS_ORIGIN,
 //   })
 // );
-app.use(
-  express.json({
-    limit: "20kb",
-  })
-); //Accepting the json file.
+app.use(express.json()); //Accepting the json file.
 app.use(
   express.urlencoded({
     limit: "20kb",
