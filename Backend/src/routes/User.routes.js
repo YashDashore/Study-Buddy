@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { RegisterUser } from "../controllers/users.controller.js";
+import { logout, RegisterUser } from "../controllers/users.controller.js";
 import { Upload } from "../middlewares/multer.middleware.js";
 import { loginUser } from "../controllers/users.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 // http://localhost:8000/api/v1/users/registration
@@ -16,10 +17,11 @@ router.route("/registration").post(
     Upload.fields([{
         name: "Profile_Photo",
         maxCount: 1
-    }]),    
+    }]),
     RegisterUser
 )
 
 router.route("/login").post(loginUser);
+router.route("/logout").post(verifyJWT, logout);
 
 export default router;

@@ -26,10 +26,9 @@ const generateAccessAndRefreshTokens = async (user_Id) => {
 
         // We updated the refreshToken but doesn't saved it till now - 
         await user.save({ validateBeforeSave: false })
-
         return { accessToken, refreshToken };
     } catch (error) {
-        throw new ApiError(408,"Cannot generate access and refreshj tokens");
+        throw new ApiError(408, "Cannot generate access and refreshj tokens");
     }
 }
 
@@ -87,12 +86,6 @@ const RegisterUser = AsyncHandler(async (req, res) => {
 })
 
 
-
-// Login user todos - 
-// 1. Get Username/email and password.
-// 2. Decrypt the db pass or encrypt exactly like db pass.
-// 3. Check existence
-// 4. 
 const loginUser = AsyncHandler(async (req, res) => {
     const { Username, Email, Password } = req.body
     console.log("Inside controller");
@@ -107,6 +100,8 @@ const loginUser = AsyncHandler(async (req, res) => {
     if (!PasswordCheck)
         throw new ApiError(405, "Invalid Password");
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(userExist._id);
+    console.log(accessToken)
+    console.log(refreshToken)
     // the previous user (refrence) we had does not access token so either update it or refresh it.
     const UpdatedUser = await User.findById(userExist._id).select("-Password -refresh_Token");
     const options = {
@@ -122,5 +117,26 @@ const loginUser = AsyncHandler(async (req, res) => {
             "User successfully logged In"))
 })
 
-export { RegisterUser }
-export { loginUser }
+const logout = AsyncHandler(async (req, res) => {
+    await User.findByIdAndUpdate(req.user._id,
+        {
+            $set: { refresh_Token: undefined }
+        },
+        {
+            new: true
+        });
+
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+    return res
+        .status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json(new ApiResponse(200, {}, "Successfully logged out user"));
+
+    // We can also logout user by using blacklisting - learn that topic too.    
+})
+
+export { RegisterUser, loginUser, logout }
