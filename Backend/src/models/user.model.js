@@ -21,16 +21,16 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    Profile_Photo : {
+    Profile_Photo: {
       type: String,
-      required : true
+      required: true
     },
     Organization: {
       type: String,
       required: true,
     },
-    refresh_Token : {
-      type : String
+    refresh_Token: {
+      type: String
     }
   },
   { timestamps: true }
@@ -48,7 +48,8 @@ UserSchema.pre("save", async function (next) {
 // Now when user enter the password. We have to check it in the database. But we stored hashed password so -
 
 UserSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.Password);
+  const valid = await bcrypt.compare(password, this.Password);
+  return valid;
 };
 
 UserSchema.methods.generateAccessToken = function () {
