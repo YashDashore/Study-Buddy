@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+import { ApiError } from "./ApiErrors.js";
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -13,7 +14,7 @@ const UploadOnCloud = async (FileOnServer) => {
       resource_type: "auto",
     });
     fs.unlinkSync(FileOnServer);
-    return response.url;
+    return response;
   } catch (error) {
     console.log("Errorrrrr");
     fs.unlinkSync(FileOnServer);
@@ -21,4 +22,13 @@ const UploadOnCloud = async (FileOnServer) => {
   }
 };
 
-export { UploadOnCloud };
+const DeleteOnCloud = async (PublicId) => {
+  try {
+    await cloudinary.uploader.destroy(PublicId);
+    return null;
+  } catch (error) {
+    throw new ApiError(500, "Image on cloud cannot be deleted");
+  }
+}
+
+export { UploadOnCloud, DeleteOnCloud };

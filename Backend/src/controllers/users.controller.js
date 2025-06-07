@@ -14,7 +14,7 @@ import { ApiError } from "../utils/ApiErrors.js";
 import { AsyncHandler } from "../utils/AsyncHandler.js";
 import { User } from "../models/user.model.js";
 // This User is responsible for conatcting DB as it is made up using mongoose.
-import { UploadOnCloud } from "../utils/CloudinaryFileUpload.js";
+import { UploadOnCloud, DeleteOnCloud } from "../utils/CloudinaryFileUpload.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 
@@ -74,7 +74,8 @@ const RegisterUser = AsyncHandler(async (req, res) => {
         Password,
         Email,
         Organization,
-        Profile_Photo: Profile_Photo
+        Profile_Photo: Profile_Photo.url,
+        Profile_photo_id: Profile_Photo.public_id
     })
     console.log("user -> ", user);
 
@@ -181,10 +182,48 @@ const UpdatePassword = AsyncHandler(async (req, res) => {
         )
 })
 
+const UpdateUserDetails = AsyncHandler(async (req, res) => {
+    const { newOrganization, newUsername } = req.body;
+    if (newUsername) {
+        const existUser = await User.findOne({ Username: newUsername })
+        if (existUser)
+            throw new ApiError(400, "Username already Exist");
+    }
+    const user = await User.findById(req.user?._id);
+    if (newOrganization)
+        user.Organization = newOrganization
+    if (newUsername)
+        user.Username = newUsername;
+    await user.save({ validateBeforeSave: false });
+    return res.status(200)
+        .json(new ApiResponse(200, {}, "Details updated successfully"))
+})
+
+const UpdateProfilePhoto = AsyncHandler(async (req, res) => {
+    const New_Profile_Photo_LocalPath = req.files?.New_Profile_Photo[0]?.path
+    if (!New_Profile_Photo_LocalPath)
+        throw new ApiError(400, "Couldn't get photo");
+    const newProfile = await UploadOnCloud(New_Profile_Photo_LocalPath);
+    if (!newProfile)
+        throw new ApiError(400, "Image not found");
+    const user = await User.findById(req.user?._id);
+    console.log("Old Photo ", user.Profile_Photo);
+    const oldPhotoId = user.Profile_photo_id;
+    user.Profile_Photo = newProfile.url;
+    user.Profile_photo_id = newProfile.public_id;
+    await DeleteOnCloud(oldPhotoId);
+    const upuser = await user.save({ validateBeforeSave: false }).select("-Password -refresh_Token");
+
+    return res.status(200)
+        .json(new ApiResponse(200, { upuser }, "Successfully updated Profile Photo"))
+})
+
 export {
     RegisterUser,
     loginUser,
     logout,
     accessRefreshToken,
-    UpdatePassword
+    UpdatePassword,
+    UpdateUserDetails,
+    UpdateProfilePhoto
 }
