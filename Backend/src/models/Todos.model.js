@@ -13,7 +13,8 @@ const TodoSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ["pending", " completed"],
+      default: "pending",
+      enum: ["pending", "completed"],
     },
     subject: {
       type: String,

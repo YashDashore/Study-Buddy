@@ -218,6 +218,21 @@ const UpdateProfilePhoto = AsyncHandler(async (req, res) => {
         .json(new ApiResponse(200, { upuser }, "Successfully updated Profile Photo"))
 })
 
+const deleteUser = AsyncHandler(async (req, res) => {
+    const { Password } = req.body;
+    if (!Password)
+        throw new ApiError(400, "Enter password");
+    const user = await User.findById(req.user?._id);
+    const checkPass = user.isPasswordCorrect(Password);
+    if (!checkPass)
+        throw new ApiError(403, "Incorrect Password");
+    const deletedUser = await User.findByIdAndDelete(user._id);
+    if (!deletedUser)
+        throw new ApiError(400, "User not found");
+    res.status(200)
+        .json(new ApiResponse(200, {}, "User deleted Successfully"));
+})
+
 export {
     RegisterUser,
     loginUser,
@@ -225,5 +240,6 @@ export {
     accessRefreshToken,
     UpdatePassword,
     UpdateUserDetails,
-    UpdateProfilePhoto
+    UpdateProfilePhoto,
+    deleteUser
 }
