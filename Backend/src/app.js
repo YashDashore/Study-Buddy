@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from 'cookie-parser'
 import router from './routes/User.routes.js'
 import { Todorouter } from "./routes/Todo.routes.js";
+import { AssignRoute } from "./routes/Assignment.routes.js";
 
 const app = express();
 // app.use(
@@ -23,7 +24,7 @@ app.use(cookieParser())
 console.log("INSIDE APP ")
 app.use("/api/v1/users", router)
 app.use("/api/v1/tasks", Todorouter)
-
+app.use("/api/v1/assignments", AssignRoute)
 
 app.get("/", (req, res) => {
   res.send("<h1>Home Page</h1>");

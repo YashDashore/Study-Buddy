@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
+// import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 const TaskSchema = new mongoose.Schema(
   {
     title: {
@@ -12,8 +12,8 @@ const TaskSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      required: true,
-      enum: ["pending", " completed"],
+      enum: ["pending", "completed"],
+      default : "pending"
     },
     subject: {
       type: String,
@@ -27,6 +27,6 @@ const TaskSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-TaskSchema.plugin(mongooseAggregatePaginate);
+// TaskSchema.plugin(mongooseAggregatePaginate);
 
 export const Task = mongoose.model("Task", TaskSchema);

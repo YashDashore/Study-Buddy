@@ -4,6 +4,7 @@ import {
     accessRefreshToken,
     UpdatePassword,
     UpdateUserDetails,
+    getUserDetails,
     UpdateProfilePhoto,
     deleteUser
 } from "../controllers/users.controller.js";
@@ -39,5 +40,6 @@ router.route("/changeProfilePhoto").patch(verifyJWT, Upload.fields([{
 }])
     , UpdateProfilePhoto)
 router.route("/deleteUser").delete(verifyJWT, deleteUser)
+router.route("/details").get(verifyJWT, getUserDetails)
 
 export default router;
