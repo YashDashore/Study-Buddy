@@ -226,7 +226,7 @@ const deleteUser = AsyncHandler(async (req, res) => {
     const checkPass = user.isPasswordCorrect(Password);
     if (!checkPass)
         throw new ApiError(403, "Incorrect Password");
-    const deletedUser = await User.findByIdAndDelete(user._id);
+    const deletedUser = await user.remove();
     if (!deletedUser)
         throw new ApiError(400, "User not found");
     res.status(200)

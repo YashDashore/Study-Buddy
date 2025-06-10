@@ -46,6 +46,11 @@ UserSchema.pre("save", async function (next) {
   }
   next();
 });
+UserSchema.pre("remove", async function (next) {
+    const userId = this._id;
+    await Todo.deleteMany({ user: userId });
+    next();
+});
 // Don't write callback using arrow function. Why ? arrow function don't have this references or context.
 
 // Now when user enter the password. We have to check it in the database. But we stored hashed password so -

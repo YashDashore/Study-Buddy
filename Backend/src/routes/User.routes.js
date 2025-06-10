@@ -31,13 +31,13 @@ router.route("/registration").post(
 router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJWT, logout);
 router.route("/Refresh-tokens").post(accessRefreshToken);
-router.route("/changePassword").post(verifyJWT, UpdatePassword);
-router.route("/changeDetails").post(verifyJWT, UpdateUserDetails);
-router.route("/changeProfilePhoto").post(verifyJWT, Upload.fields([{
+router.route("/changePassword").patch(verifyJWT, UpdatePassword);
+router.route("/changeDetails").patch(verifyJWT, UpdateUserDetails);
+router.route("/changeProfilePhoto").patch(verifyJWT, Upload.fields([{
     name: "New_Profile_Photo",
     maxCount: 1,
 }])
     , UpdateProfilePhoto)
-router.route("/deleteUser").post(verifyJWT, deleteUser)
+router.route("/deleteUser").delete(verifyJWT, deleteUser)
 
 export default router;

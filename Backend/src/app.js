@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from 'cookie-parser'
 import router from './routes/User.routes.js'
+import { Todorouter } from "./routes/Todo.routes.js";
 
 const app = express();
 // app.use(
@@ -21,6 +22,7 @@ app.use(cookieParser())
 
 console.log("INSIDE APP ")
 app.use("/api/v1/users", router)
+app.use("/api/v1/tasks", Todorouter)
 
 
 app.get("/", (req, res) => {

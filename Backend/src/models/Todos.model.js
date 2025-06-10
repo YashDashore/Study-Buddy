@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
+// import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 const TodoSchema = new mongoose.Schema(
   {
     title: {
@@ -24,7 +24,7 @@ const TodoSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-TodoSchema.plugin(mongooseAggregatePaginate)
+// TodoSchema.plugin(mongooseAggregatePaginate)
 
 export const Todo = mongoose.model("Todo", TodoSchema);
 
