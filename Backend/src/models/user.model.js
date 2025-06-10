@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { Task } from "./Assignment.model.js";
 
 const UserSchema = new mongoose.Schema(
   {
@@ -49,6 +50,7 @@ UserSchema.pre("save", async function (next) {
 UserSchema.pre("remove", async function (next) {
     const userId = this._id;
     await Todo.deleteMany({ user: userId });
+    await Task.deleteMany({ user: userId });
     next();
 });
 // Don't write callback using arrow function. Why ? arrow function don't have this references or context.

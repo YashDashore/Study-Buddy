@@ -1,18 +1,31 @@
 import mongoose from "mongoose";
-import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
+// import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 const spSchema = new mongoose.Schema(
   {
     Subject: {
       type: String,
       required: true,
     },
-    Total: {
+    User :{
+      type: mongoose.Schema.Types.ObjectId,
+      ref : "User",
+      required : true
+    },
+    Total_topics: {
       type: Number,
       required: true,
     },
-    Covered: {
+    status: {
+      type: String,
+      enum: ["In-progress", "Completed"],
+      default: "In-progress"
+    },
+    Covered_topics: {
       type: Number,
       default: 0,
+    },
+    Remaining_topics: {
+      type:Number,
     },
     PercentageProgress: {
       type: Number,
@@ -23,6 +36,6 @@ const spSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-spSchema.plugin(mongooseAggregatePaginate);
+// spSchema.plugin(mongooseAggregatePaginate);
 
 export const StudyProgress = mongoose.model("StudyProgress", spSchema);
