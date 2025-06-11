@@ -1,4 +1,16 @@
 import mongoose from "mongoose";
+const InvitationSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
+    status: {
+        type: String,
+        enum: ["pending", "accepted", "rejected"],
+        default: "pending",
+    },
+}, { timestamps: true });
 const GroupTaskSchema = new mongoose.Schema(
     {
         title: {
@@ -9,7 +21,8 @@ const GroupTaskSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        members: [
+        invitations: [InvitationSchema],
+        assignedUsers: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
