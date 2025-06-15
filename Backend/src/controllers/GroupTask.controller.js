@@ -13,6 +13,7 @@ const createGroupTask = AsyncHandler(async (req, res) => {
     if (!deadline)
         throw new ApiError(400, "All fields are required");
 
+    console.log("after all check")
     const user = await User.findById(req.user?._id);
     const CurrentUser = { user: user._id, status: "accepted" };
     const UpdatedUser = [...invitations, CurrentUser];
@@ -114,11 +115,16 @@ const leaveFromGroup = AsyncHandler(async (req, res) => {
     if (!groupTask.assignedUsers.map((element) => element.toString()).includes(user._id.toString()))
         throw new ApiError(400, "User is not present in a group task")
 
-    if (groupTask.Team_Leader.toString() == user._id.toString())
+    if (groupTask.Team_Leader.toString() == user._id.toString()) {
         // Logic - Change the team leader 
-
+        if (groupTask.assignedUsers.length <= 1)
+            throw new ApiError(400, "Delete the task")
         groupTask.assignedUsers = groupTask.assignedUsers.filter((id) => id.toString() !== user._id.toString())
-    groupTask.save({ validateBeforeSave: false })
+        groupTask.Team_Leader = groupTask.assignedUsers[0];
+    }
+    else
+        groupTask.assignedUsers = groupTask.assignedUsers.filter((id) => id.toString() !== user._id.toString())
+    await groupTask.save({ validateBeforeSave: false })
 
     return res.status(200)
         .json(new ApiResponse(200, {}, "Successfully leaved from group task"))
@@ -139,7 +145,7 @@ const removeAssignedUser = AsyncHandler(async (req, res) => {
     if (currentUser._id.toString() !== groupTask.Team_Leader.toString())
         throw new ApiError(400, "Only team leader can remove members");
 
-    if (userToRemove.toString == groupTask.Team_Leader.toString())
+    if (userToRemove.toString() == groupTask.Team_Leader.toString())
         throw new ApiError(400, "Team leader can perform self removal function")
 
     groupTask.assignedUsers = groupTask.assignedUsers.filter((id) => id.toString() !== userToRemove.toString())
@@ -150,8 +156,58 @@ const removeAssignedUser = AsyncHandler(async (req, res) => {
         )
 })
 
+const getGroupTaskDetails = AsyncHandler(async (req, res) => {
+    const groupTaskId = req.params.id;
+    const groupTask = await GroupTask.findById(groupTaskId);
 
-// Remaining Controllers  - sendGroupTaskInvitation, respondToGroupInvitation, getGroupTaskDetails, getAllGroupTask, searchUserForInvitation, DeleteInvitations - who are either accepted or rejected. 
+    if (!groupTask)
+        throw new ApiError(404, "Group task does not exist anymore");
+
+    if (!groupTask.assignedUsers.map((element) => element.toString()).includes(req.user?._id.toString()))
+        throw new ApiError(400, "User is not present in a group task")
+
+    return res.status(200)
+        .json(new ApiResponse(200, groupTask, "Details fetched"));
+})
+
+const getAllGroupTaskDetails = AsyncHandler(async (req, res) => {
+    const userId = req.user?._id;
+
+    const groupTasks = await GroupTask.find({
+        assignedUsers: userId
+    }).populate("assignedUsers", "Username")
+        .populate("Team_Leader", "Username");
+
+    res.status(200).json(new ApiResponse(200, groupTasks, "Assigned group tasks fetched"));
+});
+
+
+const respondToGroupInvitation = AsyncHandler(async (req, res) => {
+    const groupTaskId = req.params.id;
+    const { response } = req.body;
+    if (!response)
+        throw new ApiError(404, "Response not found")
+    if (!groupTaskId)
+        throw new ApiError(400, "No group task ID")
+    const groupTask = await GroupTask.findById(groupTaskId);
+    if (!groupTask)
+        throw new ApiError(404, "No group Task found");
+    const Currentinvite = groupTask.invitations.find((invite) => invite.user.toString() == req.user?._id.toString());
+    if (!Currentinvite)
+        throw new ApiError(400, "You are not invited");
+    if (Currentinvite.status.trim() !== "pending")
+        throw new ApiError(400, "Already responded")
+    if (response.trim() == "accepted" || response.trim() == "rejected")
+        Currentinvite.status = response;
+    else
+        throw new ApiError(401, "Invalid response")
+    groupTask.markModified("invitations")
+    await groupTask.save()
+    return res.status(200)
+        .json(new ApiResponse(200, groupTask, "Succesfully Updated"))
+})
+
+// Remaining Controllers  - sendGroupTaskInvitation, respondToGroupInvitation, getAllGroupTask, searchUserForInvitation, DeleteInvitations - who are either accepted or rejected. 
 //  If team leader left then update TL.
 // If user is deleted remove it from the groupTask.
 
@@ -161,5 +217,8 @@ export {
     updateGroupTaskMembers,
     deleteTask,
     leaveFromGroup,
-    removeAssignedUser
+    removeAssignedUser,
+    getGroupTaskDetails,
+    respondToGroupInvitation,
+    getAllGroupTaskDetails
 }

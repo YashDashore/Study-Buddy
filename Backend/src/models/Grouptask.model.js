@@ -44,7 +44,7 @@ const GroupTaskSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-GroupTask.pre("save", async function (next) {
+GroupTaskSchema.pre("save", async function (next) {
     const groupTask = this
     if (this.isModified("invitations")) {
 
@@ -56,7 +56,9 @@ GroupTask.pre("save", async function (next) {
 
         this.assignedUsers = Array.from(new Set([...CurrentUser, ...acceptedUser])).map((element) => new mongoose.Types.ObjectId(element));
 
-        groupTask.invitations = groupTask.invitations.filter((invite) => invite.status === "pending")
+        const after = groupTask.assignedUsers.map((element) => element.toString());
+
+        groupTask.invitations = groupTask.invitations.filter((invite) => !(after.includes(invite.user.toString())))
     }
     next();
 })
