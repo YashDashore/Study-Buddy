@@ -15,11 +15,29 @@ StudyBuddy is a MERN-based backend system designed to help students manage their
   - Create, update, delete personal tasks
   - Mark as `pending` or `completed`
 - 👥 **Group Task Management**
-  - Create tasks with multiple users
-  - Manage members and status (`pending`, `in-progress`, `completed`)
+  - Invitation system (accept/reject)
+  - Role-based team leader management
+      - Update group task details (title, subject, deadline)
+      - Add/remove group members.
+      - Appoint a new group leader
+- 📝 **Assignment Tracker** (with subjects and deadline)
 - 🌐 **MongoDB Atlas** for database
 - ☁️ **Cloudinary** for image uploads
 - ✨ **Integrate ChatGPT** (upcoming)
 - 📊 **Attendance Tracking** (upcoming)
+- 💬 **Group Chat** (upcoming)
 
 ---
+
+## 🧰 Tech Stack
+
+- 🧑‍🎨 **Frontend**: React.js _(planned)_
+- 🛠️ **Backend**: Node.js, Express.js
+- 🗄️ **Database**: MongoDB + Mongoose
+- 🛡️ **Authentication**: JWT (Access + Refresh Tokens)
+- 📤 **File Uploads**: Multer + Cloudinary
+- 🚨 **Error Handling**: Custom error class + AsyncHandler
+- ⚙️ **Environment Config**: dotenv
+
+---
+
