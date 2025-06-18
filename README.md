@@ -1,6 +1,6 @@
 # 🧠 StudyBuddy - Track. Plan. Achieve. With your StudyBuddy
 
-StudyBuddy is a MERN-based backend system designed to help students manage their personal tasks and group projects with secure authentication, user profiles, and collaboration features.
+Study-Buddy is a full-stack web application designed to help students manage personal academic tasks, collaborate in group projects, track study progress, and stay productive with peer support.
 
 ---
 
