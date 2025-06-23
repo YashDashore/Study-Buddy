@@ -3,6 +3,7 @@ import Sidebar from "../components/Dashboard/NavBars/Sidebar";
 import Container from "../components/Dashboard/Container";
 import SlidingTabs from "../components/Dashboard/SlidingTabs";
 import AssignmentWidget from "../components/Dashboard/Widgets/AssignmentWidget";
+import TodoWidget from "../components/Dashboard/Widgets/TodoWidget";
 import { useState } from "react";
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,7 +16,10 @@ const Dashboard = () => {
         <Sidebar isOpen={sidebarOpen} />
       </div>
       <Container />
-      <AssignmentWidget></AssignmentWidget>
+      <div>
+        <AssignmentWidget></AssignmentWidget>
+        <TodoWidget></TodoWidget>
+      </div>
       <SlidingTabs />
     </>
   );
