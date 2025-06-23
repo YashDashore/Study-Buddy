@@ -2,7 +2,7 @@ function SubmitButton({ label = "Submit" }) {
   return (
     <button
       type="submit"
-      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+      className="w-full bg-indigo-600 text-white py-2 rounded-xl font-semibold hover:bg-indigo-700 transition duration-200"
     >
       {label}
     </button>

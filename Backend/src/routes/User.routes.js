@@ -31,7 +31,7 @@ router.route("/registration").post(
 
 router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJWT, logout);
-router.route("/Refresh-tokens").post(accessRefreshToken);
+router.route("/refresh-tokens").post(accessRefreshToken);
 router.route("/changePassword").patch(verifyJWT, UpdatePassword);
 router.route("/changeDetails").patch(verifyJWT, UpdateUserDetails);
 router.route("/changeProfilePhoto").patch(verifyJWT, Upload.fields([{

@@ -87,12 +87,12 @@ const RegisterUser = AsyncHandler(async (req, res) => {
 })
 
 const loginUser = AsyncHandler(async (req, res) => {
-    const { Username, Email, Password } = req.body
+    const { identifier, Password } = req.body
     console.log("Inside controller");
-    if (!Username && !Email)
+    if (!identifier)
         throw new ApiError(402, "Enter either Username or Email");
     const userExist = await User.findOne({
-        $or: [{ Username }, { Email }]
+        $or: [{ Username: identifier }, { Email: identifier }]
     })
     if (!userExist)
         throw new ApiError(401, "Invalid Username or password");
@@ -100,8 +100,6 @@ const loginUser = AsyncHandler(async (req, res) => {
     if (!PasswordCheck)
         throw new ApiError(405, "Invalid Password");
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(userExist._id);
-    console.log(accessToken)
-    console.log(refreshToken)
     // the previous user (refrence) we had does not access token so either update it or refresh it.
     const UpdatedUser = await User.findById(userExist._id).select("-Password -refresh_Token");
     const options = {
@@ -110,10 +108,8 @@ const loginUser = AsyncHandler(async (req, res) => {
     }
     return res.status(200)
         .cookie("accessToken", accessToken, options)
-        .cookie("refreshToken", refreshToken, options).
-        json(new ApiResponse(200, {
-            User: UpdatedUser, accessToken, refreshToken
-        },
+        .cookie("refreshToken", refreshToken, options)
+        .json(new ApiResponse(200, { User: UpdatedUser },
             "User successfully logged In"))
 })
 
