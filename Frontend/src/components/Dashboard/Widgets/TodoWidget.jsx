@@ -10,7 +10,7 @@ const TodoWidget = () => {
         const getTodos = async () => {
           try {
             const data = await fetchUserTodos();
-            setTodos(data.slice(0, 2));
+            setTodos(data.slice(0, 1));
           } catch (error) {
             console.error("❌ Error fetching to-dos:", error);
           }
@@ -29,7 +29,6 @@ const TodoWidget = () => {
           title={item.title}
           subject={item.subject}
           status={item.status}
-          deadline={item.deadline}
         />
       )}
     />

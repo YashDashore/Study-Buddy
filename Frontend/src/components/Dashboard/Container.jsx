@@ -20,7 +20,7 @@ const Container = () => {
             className="rounded-lg shadow-md w-full h-[60%] object cover"
           />
           <button
-            className="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition w-max mx-auto"
+            className="bg-black text-white px-14 py-2.5 rounded-md hover:bg-gray-800 transition w-max mx-auto"
             onClick={() => setShowModal(true)}
           >
             Add task / Assignment
