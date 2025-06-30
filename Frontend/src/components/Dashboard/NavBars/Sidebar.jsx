@@ -87,7 +87,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           onClick={toggleSidebar}
           className="block py-2 px-3 rounded hover:bg-gray-900 text-white hover:text-blue-700 transition"
         >
-          Abous us
+          About us
         </Link>
       </nav>
     </div>

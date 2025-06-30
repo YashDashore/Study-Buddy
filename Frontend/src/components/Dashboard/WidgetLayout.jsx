@@ -12,14 +12,13 @@ const WidgetLayout = ({ title, data, renderItem, viewAllLink }) => {
       )}
 
       <div className="mt-4 flex justify-center">
-  <a
-    href={viewAllLink}
-    className="bg-blue-500 text-white px-9 py-2 rounded-xl text-sm font-medium hover:bg-blue-600 transition duration-200"
-  >
-    View All
-  </a>
-</div>
-
+        <a
+          href={viewAllLink}
+          className="bg-blue-500 text-white px-9 py-2 rounded-xl text-sm font-medium hover:bg-blue-600 transition duration-200"
+        >
+          View All
+        </a>
+      </div>
     </div>
   );
 };

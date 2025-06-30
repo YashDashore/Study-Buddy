@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchUserStudySessions } from "../../../services/assignments";
 import InfoCard from "../InfoCard";
 import WidgetLayout from "../WidgetLayout";
+import AnimatedContent from "../Animations/AnimatedContent";
 
 const StudyProgress = () => {
   const [sp, setSP] = useState([]);
@@ -20,6 +21,8 @@ const StudyProgress = () => {
   }, []);
 
   return (
+    <AnimatedContent
+  blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
     <WidgetLayout
       title="Study Progress"
       data={sp}
@@ -36,6 +39,7 @@ const StudyProgress = () => {
         />
       )}
     />
+    </AnimatedContent>
   );
 };
 

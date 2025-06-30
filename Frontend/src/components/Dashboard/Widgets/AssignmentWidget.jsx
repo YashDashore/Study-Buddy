@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchUserAssignments } from "../../../services/assignments";
 import InfoCard from "../InfoCard";
 import WidgetLayout from "../WidgetLayout";
+import AnimatedContent from "../Animations/AnimatedContent";
 
 const AssignmentWidget = () => {
   const [assignments, setAssignments] = useState([]);
@@ -20,7 +21,11 @@ const AssignmentWidget = () => {
   }, []);
 
   return (
-    <WidgetLayout
+<AnimatedContent
+
+  blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
+  <div>
+     <WidgetLayout
       title="Assignments"
       data={assignments}
       viewAllLink="/assignments"
@@ -34,6 +39,9 @@ const AssignmentWidget = () => {
         />
       )}
     />
+  </div>
+
+</AnimatedContent>
   );
 };
 
