@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const tabs = [
   { title: "Group Tasks", content: "Finalize project, Meet with group..." },
-  { title: "Attendance Tracker", content: "5/7 days this week attended" },
+  { title: "Attendance Tracker", content: "Track and manage your attendance" },
 ];
 
 const SlidingTabs = () => {

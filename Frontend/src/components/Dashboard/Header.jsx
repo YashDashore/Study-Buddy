@@ -75,7 +75,7 @@ const Container = () => {
               </button>
               <button
                 className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-                onClick={() => handleOptionSelect("Task")}
+                onClick={() => handleOptionSelect("Todo")}
               >
                 Task
               </button>

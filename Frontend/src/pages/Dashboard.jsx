@@ -5,6 +5,7 @@ import SlidingTabs from "../components/Dashboard/SlidingTabs";
 import AssignmentWidget from "../components/Dashboard/Widgets/AssignmentWidget";
 import TodoWidget from "../components/Dashboard/Widgets/TodoWidget";
 import StudyProgress from "../components/Dashboard/Widgets/StudyProgress";
+import Footer from "../components/Dashboard/Footer.jsx";
 import { useState } from "react";
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -31,6 +32,7 @@ const Dashboard = () => {
       <div className="bg-purple-100 py-14 px-2 flex justify-center">
         <SlidingTabs />
       </div>
+      <Footer></Footer>
     </>
   );
 };

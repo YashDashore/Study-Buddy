@@ -15,8 +15,33 @@ const fetchUserStudySessions = async () => {
     return response.data.data || [];
 };
 
+const createTodo = async (data) => {
+    try {
+        const response = await Api.post("/tasks/create", data, {
+            withCredentials: true,
+        });
+        return response.data.message;
+    } catch (error) {
+        const errMsg = error.response?.data?.message || "Failed to create to-do";
+        throw new Error(errMsg);
+    }
+}
+const createAssignment = async (data) => {
+    try {
+        const response = await Api.post("/assignments/create", data, {
+            withCredentials: true,
+        });
+        return response.data.message;
+    } catch (error) {
+        const errMsg = error.response?.data?.message || "Failed to create assignment";
+        throw new Error(errMsg);
+    }
+}
+
 export {
     fetchUserAssignments,
     fetchUserTodos,
-    fetchUserStudySessions
+    fetchUserStudySessions,
+    createTodo,
+    createAssignment,
 }

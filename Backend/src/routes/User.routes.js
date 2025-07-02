@@ -5,7 +5,6 @@ import {
     UpdatePassword,
     UpdateUserDetails,
     getUserDetails,
-    UpdateProfilePhoto,
     deleteUser
 } from "../controllers/users.controller.js";
 import { Upload } from "../middlewares/multer.middleware.js";
@@ -33,12 +32,12 @@ router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJWT, logout);
 router.route("/refresh-tokens").post(accessRefreshToken);
 router.route("/changePassword").patch(verifyJWT, UpdatePassword);
-router.route("/changeDetails").patch(verifyJWT, UpdateUserDetails);
-router.route("/changeProfilePhoto").patch(verifyJWT, Upload.fields([{
-    name: "New_Profile_Photo",
-    maxCount: 1,
-}])
-    , UpdateProfilePhoto)
+router.route("/changeDetails").patch(
+    Upload.fields([{
+        name: "Profile_Photo",
+        maxCount: 1
+    }]),
+    verifyJWT, UpdateUserDetails);
 router.route("/deleteUser").delete(verifyJWT, deleteUser)
 router.route("/details").get(verifyJWT, getUserDetails)
 

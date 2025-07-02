@@ -179,40 +179,41 @@ const UpdatePassword = AsyncHandler(async (req, res) => {
 })
 
 const UpdateUserDetails = AsyncHandler(async (req, res) => {
-    const { newOrganization, newUsername } = req.body;
-    if (newUsername) {
-        const existUser = await User.findOne({ Username: newUsername })
-        if (existUser)
-            throw new ApiError(400, "Username already Exist");
-    }
-    const user = await User.findById(req.user?._id);
-    if (newOrganization)
-        user.Organization = newOrganization
-    if (newUsername)
-        user.Username = newUsername;
-    await user.save({ validateBeforeSave: false });
-    return res.status(200)
-        .json(new ApiResponse(200, {}, "Details updated successfully"))
-})
+  const { Username, Organization } = req.body;
 
-const UpdateProfilePhoto = AsyncHandler(async (req, res) => {
-    const New_Profile_Photo_LocalPath = req.files?.New_Profile_Photo[0]?.path
-    if (!New_Profile_Photo_LocalPath)
-        throw new ApiError(400, "Couldn't get photo");
-    const newProfile = await UploadOnCloud(New_Profile_Photo_LocalPath);
-    if (!newProfile)
-        throw new ApiError(400, "Image not found");
-    const user = await User.findById(req.user?._id);
-    console.log("Old Photo ", user.Profile_Photo);
-    const oldPhotoId = user.Profile_photo_id;
+  const user = await User.findById(req.user?._id);
+  if (!user) throw new ApiError(404, "User not found");
+
+  // Update username
+  if (Username && Username !== user.Username) {
+    const existUser = await User.findOne({ Username });
+    if (existUser) throw new ApiError(400, "Username already exists");
+    user.Username = Username;
+  }
+
+  // Update organization
+  if (Organization) user.Organization = Organization;
+
+  // Handle profile photo if exists
+  const newProfilePath = req.files?.Profile_Photo?.[0]?.path;
+  if (newProfilePath) {
+    const newProfile = await UploadOnCloud(newProfilePath);
+    if (!newProfile) throw new ApiError(400, "Image upload failed");
+
+    // Delete old one if exists
+    if (user.Profile_photo_id) await DeleteOnCloud(user.Profile_photo_id);
+
     user.Profile_Photo = newProfile.url;
     user.Profile_photo_id = newProfile.public_id;
-    await DeleteOnCloud(oldPhotoId);
-    const upuser = await user.save({ validateBeforeSave: false }).select("-Password -refresh_Token");
+  }
 
-    return res.status(200)
-        .json(new ApiResponse(200, { upuser }, "Successfully updated Profile Photo"))
-})
+  await user.save({ validateBeforeSave: false });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Profile updated successfully"));
+});
+
 
 const deleteUser = AsyncHandler(async (req, res) => {
     const { Password } = req.body;
@@ -244,7 +245,6 @@ export {
     accessRefreshToken,
     UpdatePassword,
     UpdateUserDetails,
-    UpdateProfilePhoto,
     deleteUser,
     getUserDetails
 }
