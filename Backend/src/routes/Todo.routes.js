@@ -6,7 +6,7 @@ const Todorouter = Router();
 http://localhost:8000/api/v1/tasks/CreateTask
 Todorouter.route("/create").post(verifyJWT,createtask);
 Todorouter.route("/UpdateTask/:id").patch(verifyJWT, UpdateTask)
-Todorouter.route("/deleteTask/:id").delete(verifyJWT, deleteTask)
+Todorouter.route("/delete/:id").delete(verifyJWT, deleteTask)
 Todorouter.route("/details/:id").get(verifyJWT, getSingleTask)
 Todorouter.route("/allTasks").get(verifyJWT, getAllTask)
 export{Todorouter};

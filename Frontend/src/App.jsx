@@ -5,6 +5,8 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Profile from "./pages/Profile.jsx";
 import CreateAssignment from "./pages/CreateAssignment.jsx";
 import CreateTodo from "./pages/CreateTodo.jsx";
+import Assignment from "./pages/Assignment.jsx";
+import Todos from "./pages/Todos.jsx";
 function App() {
   return (
     <>
@@ -14,8 +16,13 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/dashboard" element={<Dashboard />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
-          <Route path= "/create-assignment" element = {<CreateAssignment/>}></Route>
-          <Route path= "/create-todo" element = {<CreateTodo/>}></Route>
+          <Route
+            path="/create-assignment"
+            element={<CreateAssignment />}
+          ></Route>
+          <Route path="/create-todo" element={<CreateTodo />}></Route>
+          <Route path="/assignments" element={<Assignment />}></Route>
+          <Route path="/todos" element={<Todos />}></Route>
         </Routes>
       </BrowserRouter>
       {/* <Dashboard></Dashboard> */}

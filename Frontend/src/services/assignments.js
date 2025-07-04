@@ -38,10 +38,32 @@ const createAssignment = async (data) => {
     }
 }
 
+const deleteAssignment = async (assignmentId) => {
+    try {
+        const response = await Api.delete(`/assignments/delete/${assignmentId}`)
+        return response.data.message || "Successfully deleted"
+    } catch (error) {
+        const errMsg = error.response?.data?.message || "Failed to delete assignment";
+        throw new Error(errMsg);
+    }
+}
+
+const deleteTodo = async (TodoId) => {
+    try {
+        const response = await Api.delete(`/tasks/delete/${TodoId}`)
+        return response.data.message || "Successfully deleted"
+    } catch (error) {
+        const errMsg = error.response?.data?.message || "Failed to delete To-do";
+        throw new Error(errMsg);
+    }
+}
+
 export {
     fetchUserAssignments,
     fetchUserTodos,
     fetchUserStudySessions,
     createTodo,
     createAssignment,
+    deleteAssignment,
+    deleteTodo
 }

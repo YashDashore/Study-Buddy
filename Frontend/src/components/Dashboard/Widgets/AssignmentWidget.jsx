@@ -11,7 +11,6 @@ const AssignmentWidget = () => {
     const getAssignments = async () => {
       try {
         const data = await fetchUserAssignments();
-        console.log("📦 fetched data:", data); // <== Add this
         setAssignments(data.slice(0, 1));
       } catch (error) {
         console.error("❌ Error fetching assignments:", error);
