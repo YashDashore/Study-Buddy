@@ -14,6 +14,7 @@ import { useState, useEffect } from "react";
 import EditTaskModal from "./EditTaskModal";
 import AddItemButton from "./AddItemButton";
 import { useNavigate } from "react-router-dom";
+import { BookOpenText, CheckSquare, GraduationCap } from "lucide-react";
 
 const AllTasks = ({ type }) => {
   const [tasks, setTasks] = useState([]);
@@ -86,6 +87,19 @@ const AllTasks = ({ type }) => {
     return "No study sessions available.";
   };
 
+  const getIcon = (type) => {
+    switch (type) {
+      case "Assignment":
+        return <BookOpenText className="text-blue-600 w-8 h-10" />;
+      case "Todos":
+        return <CheckSquare className="text-green-600 w-8 h-10" />;
+      case "Study Progress":
+        return <GraduationCap className="text-purple-600 w-8 h-10" />;
+      default:
+        return null;
+    }
+  };
+
   const handleStatusChange = async (id, newStatus) => {
     try {
       if (type === "Assignment") {
@@ -119,9 +133,12 @@ const AllTasks = ({ type }) => {
 
   return (
     <div>
-      <h1 className="py-5 text-center">
-        <u>{type}</u>
-      </h1>
+      <div className="flex items-center justify-center gap-3 mb-6">
+        {getIcon(type)}
+        <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 leading-tight">
+          {type}
+        </h1>
+      </div>
 
       <div className="px-10 py-3 flex gap-4">
         <button
