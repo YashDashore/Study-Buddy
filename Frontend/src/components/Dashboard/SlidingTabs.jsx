@@ -1,9 +1,23 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const tabs = [
-  { title: "Group Tasks", content: "Finalize project, Meet with group..." },
-  { title: "Attendance Tracker", content: "Track and manage your attendance" },
+  {
+    title: "Group Tasks",
+    content: "Finalize project, Meet with group...",
+    path: "/groupTask",
+  },
+  {
+    title: "Attendance Tracker",
+    content: "Track and manage your attendance",
+    path: "/attendanceTracker",
+  },
+  {
+    title: "Study Progress",
+    content: "Check your Study progress and sessions",
+    path: "/studyProgress",
+  },
 ];
 
 const SlidingTabs = () => {
@@ -26,13 +40,19 @@ const SlidingTabs = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.5 }}
+            className="w-full h-full"
           >
-            <h2 className="text-2xl font-bold mb-2">
-              {tabs[activeIndex].title}
-            </h2>
-            <p className="text-base tracking-wide">
-              {tabs[activeIndex].content}
-            </p>
+            <Link
+              to={tabs[activeIndex].path}
+              className="block w-full h-full no-underline text-inherit"
+            >
+              <h2 className="text-2xl font-bold mb-2 text-black">
+                {tabs[activeIndex].title}
+              </h2>
+              <p className="text-base tracking-wide text-gray-700">
+                {tabs[activeIndex].content}
+              </p>
+            </Link>
           </motion.div>
         </AnimatePresence>
       </div>

@@ -2,14 +2,26 @@ import {
   fetchUserAssignments,
   deleteAssignment,
   fetchUserTodos,
+  fetchUserStudySessions,
   deleteTodo,
+  deleteUserStudySession,
+  updateAssignment,
+  updateStudySession,
+  updateTodo,
 } from "../../services/assignments";
 import TaskCard from "./TaskCard";
 import { useState, useEffect } from "react";
+import EditTaskModal from "./EditTaskModal";
+import AddItemButton from "./AddItemButton";
+import { useNavigate } from "react-router-dom";
 
 const AllTasks = ({ type }) => {
   const [tasks, setTasks] = useState([]);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
   const [filter, setFilter] = useState("all");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getTasks = async () => {
@@ -17,8 +29,11 @@ const AllTasks = ({ type }) => {
         if (type === "Assignment") {
           const data = await fetchUserAssignments();
           setTasks(data);
-        } else {
+        } else if (type === "Todos") {
           const data = await fetchUserTodos();
+          setTasks(data);
+        } else {
+          const data = await fetchUserStudySessions();
           setTasks(data);
         }
       } catch (error) {
@@ -38,9 +53,13 @@ const AllTasks = ({ type }) => {
         await deleteAssignment(id);
         const data = await fetchUserAssignments(); // refresh list after delete
         setTasks(data);
-      } else {
+      } else if (type === "Todos") {
         await deleteTodo(id);
         const data = await fetchUserTodos();
+        setTasks(data);
+      } else {
+        await deleteUserStudySession(id);
+        const data = await fetchUserStudySessions();
         setTasks(data);
       }
     } catch (err) {
@@ -49,16 +68,54 @@ const AllTasks = ({ type }) => {
   };
 
   // Will have to write it -
-  const handleEdit = (assignment) => {
-    // TODO: Open modal or navigate to edit page with this assignment
-    console.log("Edit clicked:", assignment);
+  const handleEdit = (task) => {
+    setSelectedTask(task);
+    setEditModalOpen(true);
   };
 
   const filteredTasks = tasks.filter((a) => {
-    if (filter === "pending") return a.status === "pending";
+    if (filter === "pending")
+      return a.status === "pending" || a.status === "In-progress";
     if (filter === "completed") return a.status === "completed";
     return true; // 'all'
   });
+
+  const getEmptyText = () => {
+    if (type === "Assignment") return "No assignments available.";
+    if (type === "Todos") return "No to-dos available.";
+    return "No study sessions available.";
+  };
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      if (type === "Assignment") {
+        await updateAssignment(id, { status: newStatus });
+        const data = await fetchUserAssignments();
+        setTasks(data);
+      } else if (type === "Todos") {
+        await updateTodo(id, { status: newStatus });
+        const data = await fetchUserTodos();
+        setTasks(data);
+      } else {
+        await updateStudySession(id, { status: newStatus });
+        const data = await fetchUserStudySessions();
+        setTasks(data);
+      }
+    } catch (err) {
+      console.error(`❌ Failed to update status:`, err);
+      alert("Error updating status.");
+    }
+  };
+
+  const Addbutton = () => {
+    navigate(
+      type === "Assignment"
+        ? "/create-assignment"
+        : type === "Todos"
+        ? "/create-todo"
+        : "/studyProgress"
+    );
+  };
 
   return (
     <div>
@@ -91,6 +148,8 @@ const AllTasks = ({ type }) => {
         >
           Completed
         </button>
+
+        <AddItemButton type={type} onClick={Addbutton} />
       </div>
 
       <div className="space-y-4 px-4">
@@ -98,20 +157,59 @@ const AllTasks = ({ type }) => {
           filteredTasks.map((task) => (
             <TaskCard
               key={task._id}
+              type={type}
               title={task.title}
-              subject={task.subject}
+              subject={type === "Study Progress" ? task.Subject : task.subject}
+              onStatusChange={(newStatus) =>
+                handleStatusChange(task._id, newStatus)
+              }
               deadline={type === "Assignment" ? task.deadline : null}
+              Total_topics={
+                type === "Study Progress" ? task.Total_topics : null
+              }
+              Covered_topics={
+                type === "Study Progress" ? task.Covered_topics : null
+              }
+              Remaining_topics={
+                type === "Study Progress" ? task.Remaining_topics : null
+              }
+              PercentageProgress={
+                type === "Study Progress" ? task.PercentageProgress : null
+              }
               status={task.status}
               onEdit={() => handleEdit(task)}
               onDelete={() => handleDelete(task._id)}
             />
           ))
         ) : (
-          <p className="text-center text-gray-500">
-            No {type === "Assignment" ? "assignments" : "To-dos"} available.
-          </p>
+          <p className="text-center text-gray-500">{getEmptyText()}</p>
         )}
       </div>
+      {editModalOpen && (
+        <EditTaskModal
+          type={type}
+          task={selectedTask}
+          onClose={() => {
+            setEditModalOpen(false);
+            setSelectedTask(null);
+          }}
+          onSuccess={async () => {
+            // Refresh tasks
+            if (type === "Assignment") {
+              const data = await fetchUserAssignments();
+              setTasks(data);
+            } else if (type === "Todos") {
+              const data = await fetchUserTodos();
+              setTasks(data);
+            } else {
+              const data = await fetchUserStudySessions();
+              setTasks(data);
+            }
+            setEditModalOpen(false);
+            setSelectedTask(null);
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, Bell } from "lucide-react";
 import Sidebar from "./Sidebar";
 import HamburgerMenu from "./HamburgerMenu";
 const Navbar = function () {
@@ -82,10 +82,22 @@ const Navbar = function () {
             Contact Us{" "}
           </NavLink>
         </div>
-        <div>
+        <div className="flex items-center gap-10 mr-6">
+          <NavLink
+            to="/notifications"
+            className="text-gray-700 hover:text-purple-600 transition text-xl relative"
+            title="Notifications"
+          >
+            <Bell size={24} />
+            {/* Optional badge */}
+            {/* <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+      3
+    </span> */}
+          </NavLink>
+
           <NavLink
             to="/logout"
-            className={"text-red-600 hover:text-red-700 transition text-xl"}
+            className="text-red-600 hover:text-red-700 transition text-xl"
           >
             Logout
           </NavLink>

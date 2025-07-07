@@ -3,6 +3,7 @@ import WidgetLayout from "../WidgetLayout";
 import { useEffect, useState } from "react";
 import { fetchUserTodos } from "../../../services/assignments";
 import AnimatedContent from "../Animations/AnimatedContent";
+import { useNavigate } from "react-router-dom";
 
 const TodoWidget = () => {
   const [todos, setTodos] = useState([]);
@@ -18,6 +19,11 @@ const TodoWidget = () => {
     };
     getTodos();
   }, []);
+
+  const navigate = useNavigate();
+  const handleEdit = () => {
+    navigate("/todos"); // 👈 Redirect to 'View All' page
+  };
 
   return (
     <AnimatedContent
@@ -36,6 +42,7 @@ const TodoWidget = () => {
             title={item.title}
             subject={item.subject}
             status={item.status}
+            onEdit={() => handleEdit(item)}
           />
         )}
       />

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchUserStudySessions } from "../../../services/assignments";
 import InfoCard from "../InfoCard";
 import WidgetLayout from "../WidgetLayout";
+import { useNavigate } from "react-router-dom";
 import AnimatedContent from "../Animations/AnimatedContent";
 
 const StudyProgress = () => {
@@ -20,6 +21,11 @@ const StudyProgress = () => {
     getSession();
   }, []);
 
+  const navigate = useNavigate();
+  const handleEdit = () => {
+    navigate("/studyProgress"); // 👈 Redirect to 'View All' page
+  };
+
   return (
     <AnimatedContent
   blur={true} duration={1000} easing="ease-out" initialOpacity={0}>
@@ -36,6 +42,7 @@ const StudyProgress = () => {
           Total_topics = {item.Total_topics}
           Covered_topics = {item.Covered_topics}
           Remaining_topics ={item.Remaining_topics}
+          onEdit={()=>handleEdit(item)}
         />
       )}
     />

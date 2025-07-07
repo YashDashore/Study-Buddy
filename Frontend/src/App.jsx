@@ -7,6 +7,8 @@ import CreateAssignment from "./pages/CreateAssignment.jsx";
 import CreateTodo from "./pages/CreateTodo.jsx";
 import Assignment from "./pages/Assignment.jsx";
 import Todos from "./pages/Todos.jsx";
+import StudyProgress from "./pages/StudyProgress.jsx";
+import CreateStudySession from "./pages/CreateStudySession.jsx";
 function App() {
   return (
     <>
@@ -21,8 +23,10 @@ function App() {
             element={<CreateAssignment />}
           ></Route>
           <Route path="/create-todo" element={<CreateTodo />}></Route>
+          <Route path="/create-studySession" element={<CreateStudySession />}></Route>
           <Route path="/assignments" element={<Assignment />}></Route>
           <Route path="/todos" element={<Todos />}></Route>
+          <Route path="/studyProgress" element={<StudyProgress />}></Route>
         </Routes>
       </BrowserRouter>
       {/* <Dashboard></Dashboard> */}

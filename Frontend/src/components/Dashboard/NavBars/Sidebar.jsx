@@ -64,7 +64,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <CalendarCheck size={18} />
           Attendance Tracker
         </Link>
-        <Link to="/progress" onClick={toggleSidebar} className={linkClasses}>
+        <Link to="/studyProgress" onClick={toggleSidebar} className={linkClasses}>
           <BarChart2 size={18} />
           Study Progress
         </Link>

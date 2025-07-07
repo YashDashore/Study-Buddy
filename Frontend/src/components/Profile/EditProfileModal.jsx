@@ -1,5 +1,5 @@
 // components/Profile/EditProfileModal.jsx
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import Api from "../../services/api";
 
 const EditProfileModal = ({ isOpen, onClose, user }) => {
