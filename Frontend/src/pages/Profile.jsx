@@ -1,9 +1,13 @@
 import ProfileCard from "../components/Profile/ProfileCard";
 import { useEffect, useState } from "react";
 import Api from "../services/api";
+import Navbar from "../components/Dashboard/NavBars/Navbar";
+import Sidebar from "../components/Dashboard/NavBars/Sidebar";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   useEffect(() => {
     // Call your backend route to fetch user profile
@@ -20,8 +24,12 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-purple-100 p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">My Profile</h1>
+    <div className="min-h-screen bg-purple-100 ">
+      <div>
+        <Navbar toggleSidebar={toggleSidebar} />
+        <Sidebar isOpen={sidebarOpen} />
+      </div>
+      <h1 className="text-3xl font-bold py-4 mb-6 text-center">My Profile</h1>
       {user ? <ProfileCard user={user} /> : <p>Loading...</p>}
     </div>
   );

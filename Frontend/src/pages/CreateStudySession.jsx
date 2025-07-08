@@ -1,27 +1,40 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BasicForm from "../components/Assignments/BasicForm";
 import { BookOpenCheck } from "lucide-react";
+import Navbar from "../components/Dashboard/NavBars/Navbar";
+import Sidebar from "../components/Dashboard/NavBars/Sidebar";
+import { useState } from "react";
 
 const CreateStudySession = () => {
+  const navigate = useNavigate();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-100 via-pink-100 to-red-200 py-20 px-4">
-      <div className="max-w-3xl mx-auto bg-white/90 backdrop-blur-md shadow-2xl rounded-3xl p-10 border border-red-200 transition-all duration-300 hover:shadow-red-300">
+    <div className="min-h-screen bg-gradient-to-br from-red-100 via-pink-100 to-red-200 px-4">
+      <div>
+        <Navbar toggleSidebar={toggleSidebar} />
+        <Sidebar isOpen={sidebarOpen} />
+      </div>
+      <div className="max-w-3xl mx-auto mt-10 bg-slate-700 backdrop-blur-md shadow-2xl rounded-3xl p-10 border border-red-200 transition-all duration-300 hover:shadow-red-300">
         {/* Header Section */}
         <div className="flex items-center justify-center mb-6 gap-3">
-          <BookOpenCheck className="text-red-500 w-8 h-8" />
-          <h1 className="text-3xl md:text-4xl font-extrabold text-red-500">
+          <BookOpenCheck className="text-red-400 w-8 h-8" />
+          <h1 className="text-3xl md:text-4xl font-extrabold text-red-400">
             Create Study Session
           </h1>
         </div>
 
         {/* Subtext */}
-        <p className="text-center text-gray-600 text-base font-medium mb-10">
+        <p className="text-center text-red-300 text-base font-medium mb-10">
           Plan your study roadmap, track topic progress, and boost productivity
           🚀
         </p>
 
         {/* Form Component */}
-        <BasicForm type="studysession" />
+        <BasicForm
+          type="studysession"
+          onSuccess={() => navigate("/studyProgress")}
+        />
       </div>
     </div>
   );

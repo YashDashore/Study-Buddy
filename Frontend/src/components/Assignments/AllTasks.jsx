@@ -127,7 +127,7 @@ const AllTasks = ({ type }) => {
         ? "/create-assignment"
         : type === "Todos"
         ? "/create-todo"
-        : "/studyProgress"
+        : "/create-studySession"
     );
   };
 

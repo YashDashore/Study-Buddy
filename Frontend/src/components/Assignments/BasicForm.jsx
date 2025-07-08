@@ -7,14 +7,14 @@ import {
   createStudySession,
 } from "../../services/assignments.js";
 
-const BasicForm = ({ type }) => {
+const BasicForm = ({ type, onSuccess }) => {
   const [formData, setFormData] = useState({
     title: "",
     subject: "",
     deadline: "",
     Total_topics: "",
     Covered_topics: "",
-    Subject: "", // only needed for assignment
+    Subject: "", // only needed for studySession
   });
 
   const handleChange = (e) => {
@@ -26,12 +26,19 @@ const BasicForm = ({ type }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const payload = {
+      ...formData,
+      Total_topics: Number(formData.Total_topics),
+      Covered_topics: Number(formData.Covered_topics),
+    };
+
     console.log("Submitting form data:", formData);
     try {
       if (type === "assignment") {
         await createAssignment(formData);
       } else if (type === "studysession") {
-        await createStudySession(formData);
+        await createStudySession(payload);
       } else {
         await createTodo(formData);
       }
@@ -45,6 +52,7 @@ const BasicForm = ({ type }) => {
             : "Task"
         } created!`
       );
+      if (onSuccess) onSuccess();
     } catch (err) {
       console.error(err);
       alert(`Errorrr - ${err.message}`);
