@@ -11,7 +11,7 @@ import {
   Settings,
   Mail,
   Info,
-} from "lucide-react"; // optional icons
+} from "lucide-react"; 
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const linkClasses =

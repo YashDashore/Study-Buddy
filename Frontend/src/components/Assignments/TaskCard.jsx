@@ -9,8 +9,11 @@ const TaskCard = ({
   Covered_topics,
   Remaining_topics,
   PercentageProgress,
+  Team_Leader,
+  onViewGroupDetails,
   onStatusChange,
   onEdit,
+  _id,
   onDelete,
   type,
 }) => {
@@ -83,6 +86,20 @@ const TaskCard = ({
               />
             </div>
           </div>
+        )}
+        {Team_Leader?.Username && (
+          <p className="text-base text-gray-500">
+            Team Leader : {Team_Leader.Username}
+          </p>
+        )}
+
+        {type === "Group Tasks" && (
+          <button
+            onClick={() => onViewGroupDetails(_id)}
+            className="mt-3 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Group Details
+          </button>
         )}
       </div>
 

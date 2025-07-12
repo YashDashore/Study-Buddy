@@ -10,7 +10,6 @@ const Profile = () => {
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   useEffect(() => {
-    // Call your backend route to fetch user profile
     const fetchProfile = async () => {
       try {
         const res = await Api.get("/users/details");

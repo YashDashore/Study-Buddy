@@ -16,7 +16,7 @@ const CreateStudySession = () => {
         <Sidebar isOpen={sidebarOpen} />
       </div>
       <div className="max-w-3xl mx-auto mt-10 bg-slate-700 backdrop-blur-md shadow-2xl rounded-3xl p-10 border border-red-200 transition-all duration-300 hover:shadow-red-300">
-        {/* Header Section */}
+        
         <div className="flex items-center justify-center mb-6 gap-3">
           <BookOpenCheck className="text-red-400 w-8 h-8" />
           <h1 className="text-3xl md:text-4xl font-extrabold text-red-400">
@@ -24,13 +24,11 @@ const CreateStudySession = () => {
           </h1>
         </div>
 
-        {/* Subtext */}
         <p className="text-center text-red-300 text-base font-medium mb-10">
           Plan your study roadmap, track topic progress, and boost productivity
           🚀
         </p>
 
-        {/* Form Component */}
         <BasicForm
           type="studysession"
           onSuccess={() => navigate("/studyProgress")}

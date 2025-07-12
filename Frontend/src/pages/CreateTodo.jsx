@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import BasicForm from "../components/Assignments/BasicForm";
-import { Sparkles } from "lucide-react"; // optional icon
+import { Sparkles } from "lucide-react";
 import { useState } from "react";
 import Navbar from "../components/Dashboard/NavBars/Navbar";
 import Sidebar from "../components/Dashboard/NavBars/Sidebar";

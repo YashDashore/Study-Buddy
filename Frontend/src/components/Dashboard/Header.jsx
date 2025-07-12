@@ -8,16 +8,16 @@ const Container = () => {
 
   const handleOptionSelect = (type) => {
     setShowModal(false);
-    navigate(`/create-${type.toLowerCase()}`); // routes: /create-assignment or /create-task
+    navigate(`/create-${type.toLowerCase()}`);
   };
   return (
     <div className="flex flex-col md:flex-row h-[500px] gap-4 bg-purple-100">
-      {/* Left Section */}
+      
       <div className="w-full md:w-1/2 h-full flex flex-col gap-4 p-4">
         <img
           src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Small Image"
-          className="rounded-lg shadow-md w-full h-[60%] object cover"
+          className="rounded-lg shadow-md w-full h-[60%] object-cover"
         />
         <button
           className="bg-black text-white px-14 py-2.5 rounded-md hover:bg-gray-800 transition w-max mx-auto"
@@ -27,7 +27,6 @@ const Container = () => {
         </button>
       </div>
 
-      {/* Right Section */}
       <div className="w-full md:w-1/2 flex items-center justify-center text-center">
         <div className="flex flex-col items-center">
           <h1 className="text-5xl font-extrabold leading-tight text-center mb-4">
@@ -94,7 +93,3 @@ const Container = () => {
 };
 
 export default Container;
-
-// https://res.cloudinary.com/dhhxwychk/image/upload/v1750334731/Screenshot_2025-06-19_160414_klkilv.png
-
-// https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D

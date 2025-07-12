@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-100 p-6 py-12">
+    <footer className="bg-gray-900 text-gray-100 p-6 py-8">
       <div className="max-w-8xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8">
         <div>
           <h2 className="text-lg font-bold">Study-Buddy</h2>
@@ -19,17 +19,17 @@ const Footer = () => {
           <h3 className="font-semibold mb-2">Quick Links</h3>
           <ul className="space-y-3">
             <li>
-              <a href="#" className="text-gray-200 hover:underline">
+              <a href="" className="text-gray-200 hover:underline">
                 Dashboard
               </a>
             </li>
             <li>
-              <a href="#" className="text-gray-200 hover:underline">
+              <a href="/assignments" className="text-gray-200 hover:underline">
                 Assignments
               </a>
             </li>
             <li>
-              <a href="#" className="text-gray-200 hover:underline">
+              <a href="/groupTask" className="text-gray-200 hover:underline">
                 Group Tasks
               </a>
             </li>

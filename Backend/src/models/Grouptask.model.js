@@ -1,4 +1,4 @@
-import mongoose, { set } from "mongoose";
+import mongoose from "mongoose";
 const InvitationSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,

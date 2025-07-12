@@ -3,18 +3,36 @@ import { useState } from "react";
 import { Menu, Bell } from "lucide-react";
 import Sidebar from "./Sidebar";
 import HamburgerMenu from "./HamburgerMenu";
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../../../services/auth";
+
 const Navbar = function () {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
+
+  const handleLogout = async () => {
+    try {
+      const confirmed = window.confirm(
+        `Are you sure you want to logged out of current device?`
+      );
+      if (!confirmed) return;
+      await logoutUser();
+      navigate("/login");
+    } catch (err) {
+      console.error("Logout Error:", err.message);
+    }
+  };
+
   return (
     <>
       <header className="flex items-center justify-between px-4 py-3 bg-blue-700 text-white shadow-md relative">
         <HamburgerMenu toggleSidebar={toggleSidebar} />
         <h1 className="text-xl font-bold">Study-Buddy</h1>
-        {/* Placeholder to keep spacing in center */}
+
         <div className="w-7 md:hidden" />
         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       </header>
@@ -89,14 +107,11 @@ const Navbar = function () {
             title="Notifications"
           >
             <Bell size={24} />
-            {/* Optional badge */}
-            {/* <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
-      3
-    </span> */}
           </NavLink>
 
           <NavLink
-            to="/logout"
+            to="/dashboard"
+            onClick={handleLogout}
             className="text-red-600 hover:text-red-700 transition text-xl"
           >
             Logout

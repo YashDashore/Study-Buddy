@@ -6,6 +6,8 @@ import {
   updateStudySession,
 } from "../../services/assignments";
 
+import { updateGroupTask } from "../../services/groupTask";
+
 const EditTaskModal = ({ type, task, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({ ...task });
 
@@ -23,6 +25,8 @@ const EditTaskModal = ({ type, task, onClose, onSuccess }) => {
         await updateAssignment(task._id, formData);
       } else if (type === "Todos") {
         await updateTodo(task._id, formData);
+      } else if (type === "Group Tasks") {
+        await updateGroupTask(task._id, formData);
       } else {
         await updateStudySession(task._id, formData);
       }
@@ -68,7 +72,7 @@ const EditTaskModal = ({ type, task, onClose, onSuccess }) => {
               required
             />
           )}
-          {type === "Assignment" && (
+          {(type === "Assignment" || type === "Group Tasks") && (
             <InputField
               label="Deadline"
               type="date"

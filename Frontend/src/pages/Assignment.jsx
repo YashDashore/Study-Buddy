@@ -1,5 +1,6 @@
 import AllTasks from "../components/Assignments/AllTasks";
 import Navbar from "../components/Dashboard/NavBars/Navbar";
+import Footer from "../components/Dashboard/Footer";
 import Sidebar from "../components/Dashboard/NavBars/Sidebar";
 import { useState } from "react";
 const Assignment = () => {
@@ -18,6 +19,7 @@ const Assignment = () => {
           <AllTasks type="Assignment" />
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 };

@@ -15,8 +15,18 @@ const createGroupTask = AsyncHandler(async (req, res) => {
 
     console.log("after all check")
     const user = await User.findById(req.user?._id);
+    const resolvedUsers = await Promise.all(
+        invitations.map(async (username) => {
+            const invitedUser = await User.findOne({ Username: username });
+            if (!invitedUser) throw new ApiError(404, `User '${username}' not found`);
+            return {
+                user: invitedUser._id,
+                status: "pending",
+            };
+        })
+    );
     const CurrentUser = { user: user._id, status: "accepted" };
-    const UpdatedUser = [...invitations, CurrentUser];
+    const UpdatedUser = [...resolvedUsers, CurrentUser];
     const groupTask = await GroupTask.create({
         title,
         subject,
@@ -24,6 +34,7 @@ const createGroupTask = AsyncHandler(async (req, res) => {
         invitations: UpdatedUser,
         deadline
     })
+    await groupTask.save();
     if (!groupTask)
         throw new ApiError(400, "group task not created")
     return res.status(200)
@@ -78,8 +89,23 @@ const updateGroupTaskMembers = AsyncHandler(async (req, res) => {
     }
 
     if (invite) {
-        if (Array.isArray(invite) && invite.length !== 0) {
-            const UpdatedInvitations = [...invite, ...groupTask.invitations]
+        if (Array.isArray(invite) && invite.length > 0) {
+            if (!invite.every((i) => typeof i === "string")) {
+                throw new ApiError(400, "Invitations must be an array of usernames (strings)");
+            }
+
+            const resolvedUsers = await Promise.all(
+                invite.map(async (username) => {
+                    const invitedUser = await User.findOne({ Username: username });
+                    if (!invitedUser) throw new ApiError(404, `User '${username}' not found`);
+                    return {
+                        user: invitedUser._id,
+                        status: "pending",
+                    };
+                })
+            );
+
+            const UpdatedInvitations = [...groupTask.invitations, ...resolvedUsers];
             groupTask.invitations = UpdatedInvitations;
         }
         else
@@ -158,13 +184,27 @@ const removeAssignedUser = AsyncHandler(async (req, res) => {
 
 const getGroupTaskDetails = AsyncHandler(async (req, res) => {
     const groupTaskId = req.params.id;
-    const groupTask = await GroupTask.findById(groupTaskId);
+    const groupTask = await GroupTask.findById(groupTaskId)
+        .populate("Team_Leader", "Username _id")
+        .populate("assignedUsers", "Username _id")
+        .populate("invitations.user", "Username _id");
 
     if (!groupTask)
         throw new ApiError(404, "Group task does not exist anymore");
 
-    if (!groupTask.assignedUsers.map((element) => element.toString()).includes(req.user?._id.toString()))
-        throw new ApiError(400, "User is not present in a group task")
+    const isAssignedUser = groupTask.assignedUsers
+        .map((element) => element._id.toString())
+        .includes(req.user._id.toString());
+
+    const isAcceptedInvite = groupTask.invitations
+        .some((invite) =>
+            invite.user._id.toString() === req.user._id.toString() && invite.status === "accepted"
+        );
+
+    const isLeader = groupTask.Team_Leader._id.toString() === req.user._id.toString();
+    if (!isAssignedUser && !isAcceptedInvite && !isLeader) {
+        throw new ApiError(400, "User is not authorized to view this group task");
+    }
 
     return res.status(200)
         .json(new ApiResponse(200, groupTask, "Details fetched"));
@@ -207,9 +247,27 @@ const respondToGroupInvitation = AsyncHandler(async (req, res) => {
         .json(new ApiResponse(200, groupTask, "Succesfully Updated"))
 })
 
-// Remaining Controllers  - sendGroupTaskInvitation, respondToGroupInvitation, getAllGroupTask, searchUserForInvitation, DeleteInvitations - who are either accepted or rejected. 
-//  If team leader left then update TL.
-// If user is deleted remove it from the groupTask.
+const getPendingInvitations = AsyncHandler(async (req, res) => {
+    const userId = req.user._id;
+
+    const groupTasks = await GroupTask.find({
+        "invitations": {
+            $elemMatch: { user: userId, status: "pending" }
+        }
+    })
+        .populate("Team_Leader", "Username")
+        .populate("invitations.user", "Username");
+
+    const pendingInvites = groupTasks.map(task => {
+        return {
+            taskId: task._id,
+            title: task.title,
+            leader: task.Team_Leader.Username
+        };
+    });
+
+    return res.status(200).json(new ApiResponse(200, pendingInvites, "Pending invitations fetched"));
+});
 
 export {
     createGroupTask,
@@ -220,5 +278,6 @@ export {
     removeAssignedUser,
     getGroupTaskDetails,
     respondToGroupInvitation,
-    getAllGroupTaskDetails
+    getAllGroupTaskDetails,
+    getPendingInvitations
 }

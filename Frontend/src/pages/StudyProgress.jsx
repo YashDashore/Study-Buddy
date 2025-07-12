@@ -2,6 +2,7 @@ import AllTasks from "../components/Assignments/AllTasks";
 import Navbar from "../components/Dashboard/NavBars/Navbar";
 import Sidebar from "../components/Dashboard/NavBars/Sidebar";
 import { useState } from "react";
+import Footer from "../components/Dashboard/Footer";
 
 const StudyProgress = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -18,6 +19,7 @@ const StudyProgress = () => {
           <AllTasks type={"Study Progress"} />;
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 };

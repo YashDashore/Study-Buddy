@@ -1,11 +1,11 @@
 import BasicForm from "../components/Assignments/BasicForm";
-import { BookOpenCheck } from "lucide-react"; 
+import { BookOpenCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Navbar from "../components/Dashboard/NavBars/Navbar";
 import Sidebar from "../components/Dashboard/NavBars/Sidebar";
 
-const CreateAssignment = () => {
+const CreateGroupTask = () => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
@@ -19,21 +19,21 @@ const CreateAssignment = () => {
         <div className="flex items-center justify-center mb-6 gap-2">
           <BookOpenCheck className="text-red-400" />
           <h1 className="text-4xl font-extrabold text-red-400">
-            Create Assignment
+            Create Group Task
           </h1>
         </div>
 
         <p className="text-center text-red-300 text-base font-medium mb-8">
-          Set deadlines and track your assignment goals 📝
+          Finalize project, Meet with group... 📝
         </p>
 
         <BasicForm
-          type="assignment"
-          onSuccess={() => navigate("/assignments")}
+          type="groupTask"
+          onSuccess={() => navigate("/groupTask")}
         />
       </div>
     </div>
   );
 };
 
-export default CreateAssignment;
+export default CreateGroupTask;

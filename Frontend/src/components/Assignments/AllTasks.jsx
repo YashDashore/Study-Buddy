@@ -9,12 +9,18 @@ import {
   updateStudySession,
   updateTodo,
 } from "../../services/assignments";
+import {
+  getGroupTask,
+  updateGroupTask,
+  deleteGroupTask,
+} from "../../services/groupTask";
 import TaskCard from "./TaskCard";
 import { useState, useEffect } from "react";
 import EditTaskModal from "./EditTaskModal";
+import GroupDetailsModal from "../GroupDetailsModal";
 import AddItemButton from "./AddItemButton";
 import { useNavigate } from "react-router-dom";
-import { BookOpenText, CheckSquare, GraduationCap } from "lucide-react";
+import { BookOpenText, CheckSquare, GraduationCap, Users } from "lucide-react";
 
 const AllTasks = ({ type }) => {
   const [tasks, setTasks] = useState([]);
@@ -32,6 +38,9 @@ const AllTasks = ({ type }) => {
           setTasks(data);
         } else if (type === "Todos") {
           const data = await fetchUserTodos();
+          setTasks(data);
+        } else if (type === "Group Tasks") {
+          const data = await getGroupTask();
           setTasks(data);
         } else {
           const data = await fetchUserStudySessions();
@@ -52,11 +61,15 @@ const AllTasks = ({ type }) => {
     try {
       if (type === "Assignment") {
         await deleteAssignment(id);
-        const data = await fetchUserAssignments(); // refresh list after delete
+        const data = await fetchUserAssignments(); 
         setTasks(data);
       } else if (type === "Todos") {
         await deleteTodo(id);
         const data = await fetchUserTodos();
+        setTasks(data);
+      } else if (type === "Group Tasks") {
+        await deleteGroupTask(id);
+        const data = await getGroupTask();
         setTasks(data);
       } else {
         await deleteUserStudySession(id);
@@ -68,7 +81,6 @@ const AllTasks = ({ type }) => {
     }
   };
 
-  // Will have to write it -
   const handleEdit = (task) => {
     setSelectedTask(task);
     setEditModalOpen(true);
@@ -78,12 +90,13 @@ const AllTasks = ({ type }) => {
     if (filter === "pending")
       return a.status === "pending" || a.status === "In-progress";
     if (filter === "completed") return a.status === "completed";
-    return true; // 'all'
+    return true;
   });
 
   const getEmptyText = () => {
     if (type === "Assignment") return "No assignments available.";
     if (type === "Todos") return "No to-dos available.";
+    if (type === "Group Tasks") return "No group task available , create!";
     return "No study sessions available.";
   };
 
@@ -92,9 +105,11 @@ const AllTasks = ({ type }) => {
       case "Assignment":
         return <BookOpenText className="text-blue-600 w-8 h-10" />;
       case "Todos":
-        return <CheckSquare className="text-green-600 w-8 h-10" />;
+        return <CheckSquare className="text-blue-600 w-8 h-10" />;
       case "Study Progress":
         return <GraduationCap className="text-purple-600 w-8 h-10" />;
+      case "Group Tasks":
+        return <Users className="text-blue-600 w-8 h-10" />;
       default:
         return null;
     }
@@ -109,6 +124,10 @@ const AllTasks = ({ type }) => {
       } else if (type === "Todos") {
         await updateTodo(id, { status: newStatus });
         const data = await fetchUserTodos();
+        setTasks(data);
+      } else if (type === "Group Tasks") {
+        await updateGroupTask(id, { status: newStatus });
+        const data = await getGroupTask();
         setTasks(data);
       } else {
         await updateStudySession(id, { status: newStatus });
@@ -127,8 +146,20 @@ const AllTasks = ({ type }) => {
         ? "/create-assignment"
         : type === "Todos"
         ? "/create-todo"
+        : type === "Group Tasks"
+        ? "/create-groupTask"
         : "/create-studySession"
     );
+  };
+
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
+
+  const handleViewGroupDetails = (groupTaskId) => {
+    setSelectedGroupId(groupTaskId);
+  };
+
+  const closeModal = () => {
+    setSelectedGroupId(null);
   };
 
   return (
@@ -174,13 +205,18 @@ const AllTasks = ({ type }) => {
           filteredTasks.map((task) => (
             <TaskCard
               key={task._id}
+              _id={task._id}
               type={type}
               title={task.title}
               subject={type === "Study Progress" ? task.Subject : task.subject}
               onStatusChange={(newStatus) =>
                 handleStatusChange(task._id, newStatus)
               }
-              deadline={type === "Assignment" ? task.deadline : null}
+              deadline={
+                type === "Assignment" || type === "Group Tasks"
+                  ? task.deadline
+                  : null
+              }
               Total_topics={
                 type === "Study Progress" ? task.Total_topics : null
               }
@@ -194,14 +230,22 @@ const AllTasks = ({ type }) => {
                 type === "Study Progress" ? task.PercentageProgress : null
               }
               status={task.status}
+              assignedUser={type === "Group Tasks" ? task.assignedUsers : null}
+              Team_Leader={type === "Group Tasks" ? task.Team_Leader : null}
               onEdit={() => handleEdit(task)}
               onDelete={() => handleDelete(task._id)}
+              onViewGroupDetails={handleViewGroupDetails}
             />
           ))
         ) : (
           <p className="text-center text-gray-500">{getEmptyText()}</p>
         )}
       </div>
+      {selectedGroupId && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <GroupDetailsModal taskId={selectedGroupId} onClose={closeModal} />
+        </div>
+      )}
       {editModalOpen && (
         <EditTaskModal
           type={type}
@@ -211,12 +255,14 @@ const AllTasks = ({ type }) => {
             setSelectedTask(null);
           }}
           onSuccess={async () => {
-            // Refresh tasks
             if (type === "Assignment") {
               const data = await fetchUserAssignments();
               setTasks(data);
             } else if (type === "Todos") {
               const data = await fetchUserTodos();
+              setTasks(data);
+            } else if (type === "Group Tasks") {
+              const data = await getGroupTask();
               setTasks(data);
             } else {
               const data = await fetchUserStudySessions();

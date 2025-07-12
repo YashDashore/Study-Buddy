@@ -1,4 +1,3 @@
-// components/Profile/EditProfileModal.jsx
 import  { useState, useEffect } from "react";
 import Api from "../../services/api";
 
@@ -7,7 +6,7 @@ const EditProfileModal = ({ isOpen, onClose, user }) => {
     Username: "",
     Email: "",
     Organization: "",
-    Profile_Photo: null, // file input
+    Profile_Photo: null, 
   });
 
   useEffect(() => {
@@ -56,7 +55,7 @@ const EditProfileModal = ({ isOpen, onClose, user }) => {
 
       alert("Profile updated successfully");
       onClose();
-      window.location.reload(); // Optional: reload profile data after update
+      window.location.reload();
     } catch (error) {
       console.error("Error updating profile:", error);
       alert("Failed to update profile");

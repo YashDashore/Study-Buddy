@@ -6,6 +6,7 @@ import {
   createTodo,
   createStudySession,
 } from "../../services/assignments.js";
+import { createGroupTask } from "../../services/groupTask.js";
 
 const BasicForm = ({ type, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -14,7 +15,8 @@ const BasicForm = ({ type, onSuccess }) => {
     deadline: "",
     Total_topics: "",
     Covered_topics: "",
-    Subject: "", // only needed for studySession
+    Subject: "", 
+    invitations: "",
   });
 
   const handleChange = (e) => {
@@ -33,7 +35,19 @@ const BasicForm = ({ type, onSuccess }) => {
       Covered_topics: Number(formData.Covered_topics),
     };
 
-    console.log("Submitting form data:", formData);
+    if (type === "groupTask") {
+      const updatedPayload = {
+        ...formData,
+        invitations: formData.invitations
+          .split(",")
+          .map((username) => username.trim()),
+      };
+      await createGroupTask(updatedPayload);
+      alert("Group Task created!");
+      if (onSuccess) onSuccess();
+      return;
+    }
+
     try {
       if (type === "assignment") {
         await createAssignment(formData);
@@ -94,7 +108,7 @@ const BasicForm = ({ type, onSuccess }) => {
         />
       )}
 
-      {type === "assignment" && (
+      {(type === "assignment" || type === "groupTask") && (
         <InputField
           label="Deadline"
           name="deadline"
@@ -120,6 +134,16 @@ const BasicForm = ({ type, onSuccess }) => {
           label="Covered topics"
           name="Covered_topics"
           value={formData.Covered_topics}
+          onChange={handleChange}
+          required
+        />
+      )}
+
+      {type === "groupTask" && (
+        <InputField
+          label="Invited Usernames (comma separated)"
+          name="invitations"
+          value={formData.invitations}
           onChange={handleChange}
           required
         />

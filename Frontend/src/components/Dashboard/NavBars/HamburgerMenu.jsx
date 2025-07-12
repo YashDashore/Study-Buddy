@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const HamburgerMenu = ({ toggleSidebar }) => {
@@ -6,7 +6,7 @@ const HamburgerMenu = ({ toggleSidebar }) => {
 
   const handleClick = () => {
     setIsOpen(!isOpen);
-    toggleSidebar(); // Callback to toggle sidebar
+    toggleSidebar();
   };
 
   return (
