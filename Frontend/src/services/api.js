@@ -1,6 +1,6 @@
 import axios from 'axios';
 const Api = axios.create({
-    baseURL: "https://study-buddy-backend-7nhi.onrender.com",
+    baseURL: "https://study-buddy-backend-7nhi.onrender.com/api/v1",
     withCredentials: true
 });
 
