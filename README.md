@@ -62,6 +62,46 @@ Study-Buddy is a full-stack web application designed to help students manage per
 
 ---
 
+## 📁 Project Directory Structure
+
+Study-Buddy/
+├── Backend/                     # Express.js backend
+|   └── src
+│    ├── controllers/             # Route controllers
+│    ├── db/                      # Database connection
+│    ├── middleware/              # Auth, error handlers, etc.
+│    ├── models/                  # Mongoose schemas
+│    ├── routes/                  # API routes
+│    ├── utils/                   # Helpers, custom classes
+│    ├── app.js                   # Express app setup
+│    └── index.js                 # Entry point
+
+├── Frontend/                    # React (Vite) frontend
+│   ├── public/                  # Static assets
+│   ├── src/
+│   │   ├── components/          
+│   │   │   ├── Dashboard/       # Layouts, animations, widgets, navigation
+│   │   │   ├── Profile/         # ProfileCard, Edit Modal
+│   │   │   ├── Registration_Login/ # Auth form inputs, buttons
+│   │   │   ├── Tasks/           # Personal & Group tasks UI
+│   │   │   │   └── GroupTask/   # Invite system, group management modal
+│   │   ├── pages/               # Page-level views (Home, Dashboard, About, etc.)
+│   │   ├── services/            # API handlers (axios)
+│   │   ├── styles/              # Tailwind and global styles
+│   │   ├── App.jsx              # Main app shell
+│   │   └── main.jsx             # React root
+
+├── .gitignore
+├── README.md
+├── vite.config.js
+├── tailwind.config.js
+├── postcss.config.js
+├── index.html
+├── package.json
+└── package-lock.json
+
+---
+
 ## 🛠️ Setup Instructions
 
 ### 📦 Prerequisites
