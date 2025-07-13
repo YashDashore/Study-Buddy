@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Navbar from "../components/Dashboard/NavBars/Navbar";
-import Sidebar from "../components/Dashboard/NavBars/Sidebar";
-import Footer from "../components/Dashboard/Footer";
+import Navbar from "../../components/Dashboard/Navigation/NavBars/Navbar"
+import Sidebar from "../../components/Dashboard/Navigation/NavBars/Sidebar";
+import Footer from "../../components/Dashboard/Layouts/Footer";
 import { CalendarCheck } from "lucide-react";
 
 const AttendanceTracker = () => {

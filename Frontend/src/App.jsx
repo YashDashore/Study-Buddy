@@ -1,21 +1,21 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Register from "./pages/Registration.jsx";
-import Login from "./pages/Login.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
-import Profile from "./pages/Profile.jsx";
-import CreateAssignment from "./pages/CreateAssignment.jsx";
-import CreateTodo from "./pages/CreateTodo.jsx";
-import Assignment from "./pages/Assignment.jsx";
-import Todos from "./pages/Todos.jsx";
-import StudyProgress from "./pages/StudyProgress.jsx";
-import CreateStudySession from "./pages/CreateStudySession.jsx";
-import GroupTask from "./pages/GroupTask.jsx";
-import CreateGroupTask from "./pages/CreateGroupTask.jsx";
-import Notifications from "./pages/Notifications.jsx";
+import Register from "./pages/Auth/Registration.jsx";
+import Login from "./pages/Auth/Login.jsx";
+import Dashboard from "./pages/Dashboard/Dashboard.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
+import CreateAssignment from "./pages/Tasks/Create/CreateAssignment.jsx";
+import CreateTodo from "./pages/Tasks/Create/CreateTodo.jsx";
+import Assignment from "./pages/Tasks/Assignment.jsx";
+import Todos from "./pages/Tasks/Todos.jsx";
+import StudyProgress from "./pages/Tasks/StudyProgress.jsx";
+import CreateStudySession from "./pages/Tasks/Create/CreateStudySession.jsx";
+import GroupTask from "./pages/Tasks/GroupTask.jsx";
+import CreateGroupTask from "./pages/Tasks/Create/CreateGroupTask.jsx";
+import Notifications from "./pages/Tasks/Notifications.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
-import ContactUs from "./pages/ContactUs.jsx";
-import AboutUs from "./pages/AboutUs.jsx";
-import AttendanceTracker from "./pages/AttendanceTracker.jsx";
+import ContactUs from "./pages/Info/ContactUs.jsx";
+import AboutUs from "./pages/Info/AboutUs.jsx";
+import AttendanceTracker from "./pages/Attendance/AttendanceTracker.jsx";
 
 function App() {
   return (

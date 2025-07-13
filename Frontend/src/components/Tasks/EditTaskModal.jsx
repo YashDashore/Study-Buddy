@@ -4,7 +4,7 @@ import {
   updateAssignment,
   updateTodo,
   updateStudySession,
-} from "../../services/assignments";
+} from "../../services/Tasks"
 
 import { updateGroupTask } from "../../services/groupTask";
 

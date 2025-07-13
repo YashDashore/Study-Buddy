@@ -4,8 +4,8 @@ import {
   updateGroupMembers,
   removeUserFromGroup,
   leaveGroupTask,
-} from "../services/groupTask";
-import { getCurrentUser } from "../services/auth";
+} from "../../../services/groupTask";
+import { getCurrentUser } from "../../../services/auth";
 import { X } from "lucide-react";
 
 const GroupDetailsModal = ({ taskId, onClose }) => {

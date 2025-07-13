@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SplitText from "./Animations/SplitText";
-
+import SplitText from "../Animations/SplitText";
 const Container = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();

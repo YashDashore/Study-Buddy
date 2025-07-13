@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Navbar from "../components/Dashboard/NavBars/Navbar";
-import Sidebar from "../components/Dashboard/NavBars/Sidebar";
+import Navbar from "../../components/Dashboard/Navigation/NavBars/Navbar"
+import Sidebar from "../../components/Dashboard/Navigation/NavBars/Sidebar";
+import Footer from "../../components/Dashboard/Layouts/Footer";
 import { Mail } from "lucide-react";
-import Footer from "../components/Dashboard/Footer";
 
 const ContactUs = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });

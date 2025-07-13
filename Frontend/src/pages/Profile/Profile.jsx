@@ -1,8 +1,8 @@
-import ProfileCard from "../components/Profile/ProfileCard";
+import ProfileCard from "../../components/Profile/ProfileCard"
 import { useEffect, useState } from "react";
-import Api from "../services/api";
-import Navbar from "../components/Dashboard/NavBars/Navbar";
-import Sidebar from "../components/Dashboard/NavBars/Sidebar";
+import Api from "../../services/api";
+import Navbar from "../../components/Dashboard/Navigation/NavBars/Navbar";
+import Sidebar from "../../components/Dashboard/Navigation/NavBars/Sidebar";
 
 const Profile = () => {
   const [user, setUser] = useState(null);

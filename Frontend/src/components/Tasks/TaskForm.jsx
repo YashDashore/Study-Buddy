@@ -1,11 +1,10 @@
-// components/SharedTaskForm/TaskForm.jsx
 import { useState } from "react";
 import InputField from "../Registration_Login/Input.jsx";
 import {
   createAssignment,
   createTodo,
   createStudySession,
-} from "../../services/assignments.js";
+} from "../../services/Tasks.js"
 import { createGroupTask } from "../../services/groupTask.js";
 
 const BasicForm = ({ type, onSuccess }) => {

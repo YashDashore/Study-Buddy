@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { fetchUserStudySessions } from "../../../services/assignments";
-import InfoCard from "../InfoCard";
-import WidgetLayout from "../WidgetLayout";
+import { fetchUserStudySessions } from "../../../services/Tasks";
+import InfoCard from "./InfoCard";
+import WidgetLayout from "../Layouts/WidgetLayout";
 import { useNavigate } from "react-router-dom";
 import AnimatedContent from "../Animations/AnimatedContent";
 

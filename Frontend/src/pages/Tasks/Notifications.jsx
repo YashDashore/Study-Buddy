@@ -1,6 +1,6 @@
-import InvitesList from "../components/InvitesList";
-import Navbar from "../components/Dashboard/NavBars/Navbar";
-import Sidebar from "../components/Dashboard/NavBars/Sidebar";
+import InvitesList from "../../components/Tasks/GroupTask/InvitesList";
+import Navbar from "../../components/Dashboard/Navigation/NavBars/Navbar"
+import Sidebar from "../../components/Dashboard/Navigation/NavBars/Sidebar";
 import { useState } from "react";
 const Notifications = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

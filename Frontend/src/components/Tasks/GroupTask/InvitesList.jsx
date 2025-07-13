@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   getPendingInvites,
   respondToGroupInvite,
-} from "../services/groupTask";
+} from "../../../services/groupTask";
 
 const InvitesList = () => {
   const [invites, setInvites] = useState([]);

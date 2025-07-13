@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { loginUser } from "../services/auth";
+import { loginUser } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
-import InputField from "../components/Registration_Login/Input";
-import SubmitButton from "../components/Registration_Login/SubmitButton";
+import InputField from "../../components/Registration_Login/Input";
+import SubmitButton from "../../components/Registration_Login/SubmitButton";
 
 const Login = () => {
   const navigate = useNavigate();

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchUserAssignments } from "../../../services/assignments";
-import InfoCard from "../InfoCard";
-import WidgetLayout from "../WidgetLayout";
+import { fetchUserAssignments } from "../../../services/Tasks";
+import InfoCard from "./InfoCard";
+import WidgetLayout from "../Layouts/WidgetLayout";
 import AnimatedContent from "../Animations/AnimatedContent";
 
 const AssignmentWidget = () => {

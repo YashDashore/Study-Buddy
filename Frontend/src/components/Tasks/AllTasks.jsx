@@ -8,17 +8,17 @@ import {
   updateAssignment,
   updateStudySession,
   updateTodo,
-} from "../../services/assignments";
+} from "../../services/Tasks";
 import {
   getGroupTask,
   updateGroupTask,
   deleteGroupTask,
 } from "../../services/groupTask";
-import TaskCard from "./TaskCard";
+import TaskCard from "./TaskCard"
 import { useState, useEffect } from "react";
 import EditTaskModal from "./EditTaskModal";
-import GroupDetailsModal from "../GroupDetailsModal";
-import AddItemButton from "./AddItemButton";
+import GroupDetailsModal from "./GroupTask/GroupDetailsModal";
+import AddItemButton from "../../components/Tasks/AddTaskButton"
 import { useNavigate } from "react-router-dom";
 import { BookOpenText, CheckSquare, GraduationCap, Users } from "lucide-react";
 

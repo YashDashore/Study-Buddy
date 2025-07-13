@@ -4,7 +4,7 @@ import { Menu, Bell } from "lucide-react";
 import Sidebar from "./Sidebar";
 import HamburgerMenu from "./HamburgerMenu";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../../../services/auth";
+import { logoutUser } from "../../../../services/auth";
 
 const Navbar = function () {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

@@ -6,21 +6,32 @@ Study-Buddy is a full-stack web application designed to help students manage per
 
 ## 🚀 Features
 
-- 🔐 **JWT Authentication** (Login, Register, Logout)
+- 🔐 **JWT Authentication**
+  - Register, Login, Logout
+  - Protected Routes with Access + Refresh Tokens
 - 👤 **User Profile Management**
-  - Update username, password, email
-  - Upload profile photos (Cloudinary)
+  - Edit profile (username, organization, profile photo)
+  - Upload profile images via **Cloudinary**
   - Delete account with password confirmation
 - ✅ **Todo Task Management**
   - Create, update, delete personal tasks
-  - Mark as `pending` or `completed`
+  - Track assignments with subject & deadline
 - 👥 **Group Task Management**
+
   - Invitation system (accept/reject)
   - Role-based team leader management
-      - Update group task details (title, subject, deadline)
-      - Add/remove group members.
-      - Appoint a new group leader
-- 📝 **Assignment Tracker** (with subjects and deadline)
+    - Update group task details (title, subject, deadline)
+    - Add/remove group members.
+    - Appoint a new group leader
+
+- 🗂️ **Study Progress Tracker**
+  - Track topic progress with progress bars
+- 📨 **Contact Us Page**
+
+  - Reach out to developers via in-app form
+
+- ℹ️ **About Page**
+  - Learn about the purpose and stack behind Study-Buddy
 - 🌐 **MongoDB Atlas** for database
 - ☁️ **Cloudinary** for image uploads
 - ✨ **Integrate ChatGPT** (upcoming)
@@ -31,13 +42,53 @@ Study-Buddy is a full-stack web application designed to help students manage per
 
 ## 🧰 Tech Stack
 
-- 🧑‍🎨 **Frontend**: React.js _(planned)_
-- 🛠️ **Backend**: Node.js, Express.js
-- 🗄️ **Database**: MongoDB + Mongoose
-- 🛡️ **Authentication**: JWT (Access + Refresh Tokens)
-- 📤 **File Uploads**: Multer + Cloudinary
-- 🚨 **Error Handling**: Custom error class + AsyncHandler
-- ⚙️ **Environment Config**: dotenv
+### 🔹 Frontend
+
+- React.js (Vite)
+- Tailwind CSS
+- React Router DOM
+- Lucide React Icons
+- Framer Motion, GSAP (animations)
+
+### 🔸 Backend
+
+- Node.js + Express.js
+- MongoDB Atlas + Mongoose
+- JWT Authentication (Access & Refresh Tokens)
+- Multer for file upload
+- Cloudinary for image hosting
+- CORS + Cookie-based sessions
+- Centralized Error Handling (ApiResponse, ApiError, AsyncHandler)
 
 ---
 
+## 🛠️ Setup Instructions
+
+### 📦 Prerequisites
+
+- Node.js (v18+)
+- MongoDB Atlas Account
+- Cloudinary Account
+
+### 🔧 Install & Run Locally
+
+```bash
+# Backend
+cd server
+npm install
+npm run dev
+
+# Frontend
+cd client
+npm install
+npm run dev
+
+```
+
+---
+
+## 🙋‍♂️ Author
+
+Built by **[Yash Dashore](mailto:yash.dashore1@gmail.com)**  
+📞 +91-8871343163  
+🌐 [LinkedIn](https://www.linkedin.com/in/yash-dashore-271264265/)

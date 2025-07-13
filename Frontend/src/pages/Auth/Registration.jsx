@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../services/auth.js";
-import InputField from "../components/Registration_Login/Input.jsx";
-import SubmitButton from "../components/Registration_Login/SubmitButton.jsx";
+import { registerUser } from "../../services/auth.js";
+import InputField from "../../components/Registration_Login/Input.jsx";
+import SubmitButton from "../../components/Registration_Login/SubmitButton.jsx";
 
 
 function Register() {

@@ -1,7 +1,7 @@
-import InfoCard from "../InfoCard";
-import WidgetLayout from "../WidgetLayout";
+import InfoCard from "./InfoCard";
+import WidgetLayout from "../Layouts/WidgetLayout"
 import { useEffect, useState } from "react";
-import { fetchUserTodos } from "../../../services/assignments";
+import { fetchUserTodos } from "../../../services/Tasks";
 import AnimatedContent from "../Animations/AnimatedContent";
 import { useNavigate } from "react-router-dom";
 

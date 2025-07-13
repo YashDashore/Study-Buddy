@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import BasicForm from "../components/Assignments/BasicForm";
+import BasicForm from "../../../components/Tasks/TaskForm";
 import { Sparkles } from "lucide-react";
 import { useState } from "react";
-import Navbar from "../components/Dashboard/NavBars/Navbar";
-import Sidebar from "../components/Dashboard/NavBars/Sidebar";
+import Navbar from "../../../components/Dashboard/Navigation/NavBars/Navbar"
+import Sidebar from "../../../components/Dashboard/Navigation/NavBars/Sidebar";
 
 const CreateTodo = () => {
   const navigate = useNavigate();
