@@ -30,7 +30,7 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-300">
       <div className="flex w-full max-w-4xl bg-white shadow-2xl rounded-3xl overflow-hidden">
-        <div className="w-full md:w-[420px] p-8 md:p-10 flex flex-col justify-center">
+        <div className="w-1/2 p-8 flex flex-col justify-center">
           <h1 className="text-3xl font-extrabold font-logo text-gray-900 mb-2">
             Study-Buddy
           </h1>
@@ -56,7 +56,7 @@ const Login = () => {
 
             <SubmitButton text="Login" />
 
-            <p className="text-sm text-center text-gray-500 mt-4">
+            <p className="text-sm text-center text-gray-500 mt-3">
               Don’t have an account?{" "}
               <a
                 href="/register"
@@ -68,7 +68,7 @@ const Login = () => {
           </form>
         </div>
 
-        <div className="hidden md:block w-[420px] h-full">
+        <div className="w-1/2 h-full">
           <img
             src="https://plus.unsplash.com/premium_photo-1664372145591-f7cc308ff5da?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c3R1ZHl8ZW58MHx8MHx8fDA%3D"
             alt="Study Illustration"
