@@ -4,6 +4,17 @@ const Api = axios.create({
     withCredentials: true
 });
 
+Api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");  // ⬅️ important in production
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 Api.interceptors.response.use(
     (response) => response,
     async (error) => {
