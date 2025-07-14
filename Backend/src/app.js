@@ -7,10 +7,22 @@ import { AssignRoute } from "./routes/Assignment.routes.js";
 import { SessionRoute } from "./routes/StudyProg.routes.js";
 import { GroupRouter } from "./routes/GroupTask.routes.js";
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://study-buddy-frontend-a74u.onrender.com"
+];
+
 const app = express();
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: function(origin, callback){
+      if(!origin || allowedOrigins.includes(origin)){
+        callback(null,true);
+      }
+      else{
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true
   })
 );
