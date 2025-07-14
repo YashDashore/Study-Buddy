@@ -17,6 +17,7 @@ const Dashboard = () => {
         <Navbar toggleSidebar={toggleSidebar} />
         <Sidebar isOpen={sidebarOpen} />
       </div>
+        <div className="max-w-6xl mx-auto">
       <Container />
       <div className="flex flex-col lg:flex-row gap-6 px-4 items-stretch bg-purple-100 justify-center">
         <div className="flex-1">
@@ -32,6 +33,7 @@ const Dashboard = () => {
       <div className="bg-purple-100 py-14 px-2 flex justify-center">
         <SlidingTabs />
       </div>
+          </div>
       <Footer></Footer>
     </>
   );
