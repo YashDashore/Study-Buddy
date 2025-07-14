@@ -20,6 +20,9 @@ export const loginUser = async (data) => {
         const response = await Api.post("/users/login", data, {
             withCredentials: true,
         });
+        if (response.data.token) {
+      localStorage.setItem("token", response.data.token);
+    }
         return response.data.message;
     } catch (error) {
         const errMsg = error.response?.data?.message || "Login failed";
