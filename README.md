@@ -72,18 +72,24 @@ Study-Buddy is a full-stack web application designed to help students manage per
 
 ### 🔧 Install & Run Locally
 
-```bash
-# Backend
-cd server
+```powershell
+# Backend (PowerShell)
+cd Backend
 npm install
+cp .env.example .env         # copy example env file and fill values (use PowerShell: copy-item .env.example .env)
 npm run dev
 
-# Frontend
-cd client
+# Frontend (PowerShell)
+cd Frontend
 npm install
 npm run dev
 
 ```
+
+Notes:
+- The backend default port is **8000** (can be changed via `PORT` in `Backend/.env`).
+- The frontend runs on Vite's default port (usually **5173**). To connect the frontend to the backend set your API base URL in the frontend config or environment variables.
+- Place your real secrets in `Backend/.env` (never commit `.env`). See `Backend/.env.example` for required variables.
 
 ---
 
