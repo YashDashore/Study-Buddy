@@ -14,7 +14,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://study-buddy-frontend-a74u.onrender.com"
+  "https://study-buddy-3tys.onrender.com"
 ];
 
 // ------------------ BODY + COOKIES ------------------
