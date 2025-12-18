@@ -1,6 +1,8 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 import { ApiError } from "./ApiErrors.js";
+import path from "path";
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -10,15 +12,28 @@ cloudinary.config({
 const UploadOnCloud = async (FileOnServer) => {
   try {
     if (!FileOnServer) return null;
-    const response = await cloudinary.uploader.upload(FileOnServer, {
-      resource_type: "auto",
+
+    const absolutePath = path.resolve(FileOnServer);
+
+    const response = await cloudinary.uploader.upload(absolutePath, {
+      resource_type: "image",
+      folder: "users",
     });
-    fs.unlinkSync(FileOnServer);
+
+    if (fs.existsSync(absolutePath)) {
+      fs.unlinkSync(absolutePath);
+    }
+
     return response;
+
   } catch (error) {
-    console.log("Errorrrrr");
-    fs.unlinkSync(FileOnServer);
-    return null;
+    console.error("Cloudinary Upload Error:", error.message);
+
+    if (FileOnServer && fs.existsSync(FileOnServer)) {
+      fs.unlinkSync(FileOnServer);
+    }
+
+    throw error; 
   }
 };
 
