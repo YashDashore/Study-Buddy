@@ -39,7 +39,6 @@ const deleteAssignment = async (assignmentId) => {
 
 const fetchUserTodos = async () => {
     const response = await Api.get("/tasks/allTasks");
-    console.log(response);
     return response.data.data || [];
 };
 
@@ -77,7 +76,6 @@ const deleteTodo = async (TodoId) => {
 
 const fetchUserStudySessions = async () => {
     const response = await Api.get("/studyProgress/allSessions");
-    console.log(response);
     return response.data.data || [];
 };
 

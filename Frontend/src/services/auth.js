@@ -7,7 +7,6 @@ export const registerUser = async (formData) => {
                 "Content-Type": "multipart/form-data",
             },
         });
-        console.log("auth is working fine")
         return response.data;
     } catch (error) {
         const errMsg = error.response?.data?.message || "Registration failed"

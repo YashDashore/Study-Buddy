@@ -34,15 +34,8 @@ const generateAccessAndRefreshTokens = async (user_Id) => {
 }
 
 const RegisterUser = AsyncHandler(async (req, res) => {
-    // console.log("FILES ====>", req.files);
-    // console.log("BODY ====>", req.body);
 
     const { Username, Email, Password, Organization } = req.body;
-    console.log("Inside Controller , Body ======> ", req.body)
-
-    // if(Username === ""){
-    //     throw new ApiError(400,"Invalid Username")
-    // } Correct way but it takes alot of time to check each field.
 
     if (
         [Username, Email, Password, Organization].some((field) => field?.trim() === "")
@@ -59,11 +52,9 @@ const RegisterUser = AsyncHandler(async (req, res) => {
 
 
     const Profile_Photo_LocalPath = req.files?.Profile_Photo[0]?.path
-    // console.log(req.files); 
 
     if (!Profile_Photo_LocalPath) // Couldn't get image
         throw new ApiError(402, "Profile Image is required")
-    console.log(req.body)
     const Profile_Photo = await UploadOnCloud(Profile_Photo_LocalPath)
 
     if (!Profile_Photo)
@@ -77,7 +68,6 @@ const RegisterUser = AsyncHandler(async (req, res) => {
         Profile_Photo: Profile_Photo.url,
         Profile_photo_id: Profile_Photo.public_id
     })
-    console.log("user -> ", user);
 
     const createdUser = await User.findById(user._id).select("-Password -refresh_Token")
     if (!createdUser)
@@ -88,7 +78,6 @@ const RegisterUser = AsyncHandler(async (req, res) => {
 
 const loginUser = AsyncHandler(async (req, res) => {
     const { identifier, Password } = req.body
-    console.log("Inside controller");
     if (!identifier)
         throw new ApiError(402, "Enter either Username or Email");
     const userExist = await User.findOne({
@@ -135,7 +124,7 @@ const logout = AsyncHandler(async (req, res) => {
     // We can also logout user by using blacklisting - learn that topic too.    
 })
 
-// Update the access token using refresh token -
+
 const accessRefreshToken = AsyncHandler(async (req, res) => {
     const UserRefreshToken = req.cookies?.refreshToken || req.body.refresh_Token;
     if (!UserRefreshToken)
@@ -169,7 +158,6 @@ const UpdatePassword = AsyncHandler(async (req, res) => {
     const verifyPassword = await user.isPasswordCorrect(oldPassword)
     if (!verifyPassword)
         throw new ApiError(404, "Invalid old Password");
-    console.log(newpassword)
     user.Password = newpassword
     await user.save({ validateBeforeSave: false });
     return res.status(200)

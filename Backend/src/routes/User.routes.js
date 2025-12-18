@@ -17,8 +17,6 @@ router.route("/register").post(RegisterUser) //For normal data/text/JSON etc.
 
 router.route("/registration").post(
     (req, res, next) => {
-        // console.log(req)
-        console.log("🔥 Route Hit");
         next();
     },
     Upload.fields([{

@@ -1,50 +1,51 @@
 import express from "express";
 import cors from "cors";
-import cookieParser from 'cookie-parser'
-import router from './routes/User.routes.js'
+import cookieParser from "cookie-parser";
+import path from "path";
+
+import router from "./routes/User.routes.js";
 import { Todorouter } from "./routes/Todo.routes.js";
 import { AssignRoute } from "./routes/Assignment.routes.js";
 import { SessionRoute } from "./routes/StudyProg.routes.js";
 import { GroupRouter } from "./routes/GroupTask.routes.js";
+
+const __dirname = path.resolve();
+const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
   "https://study-buddy-frontend-a74u.onrender.com"
 ];
 
-const app = express();
+// ------------------ BODY + COOKIES ------------------
+app.use(express.json());
+app.use(express.urlencoded({ limit: "20kb", extended: true }));
+app.use(cookieParser());
+
+// ------------------ CORS (API ONLY) ------------------
 app.use(
+  "/api",
   cors({
-    origin: function(origin, callback){
-      if(!origin || allowedOrigins.includes(origin)){
-        callback(null,true);
-      }
-      else{
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true
+    origin: allowedOrigins,
+    credentials: true,
   })
 );
-app.use(express.json()); //Accepting the json file.
-app.use(
-  express.urlencoded({
-    limit: "20kb",
-  })
-); // Accept data from url and urlencoded helps to decode the data.
 
-app.use(express.static("public")); // used to store pdfs, public assets
-app.use(cookieParser())
+// ------------------ API ROUTES ------------------
+app.use("/api/v1/users", router);
+app.use("/api/v1/tasks", Todorouter);
+app.use("/api/v1/assignments", AssignRoute);
+app.use("/api/v1/studyProgress", SessionRoute);
+app.use("/api/v1/groupTask", GroupRouter);
 
-console.log("INSIDE APP ")
-app.use("/api/v1/users", router)
-app.use("/api/v1/tasks", Todorouter)
-app.use("/api/v1/assignments", AssignRoute)
-app.use("/api/v1/studyProgress", SessionRoute)
-app.use("/api/v1/groupTask", GroupRouter)
+// ------------------ STATIC FRONTEND ------------------
+app.use(express.static(path.join(__dirname, "Frontend", "dist")));
 
-app.get("/", (req, res) => {
-  res.send("<h1>Home Page</h1>");
+// ------------------ SPA FALLBACK (LAST) ------------------
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "Frontend", "dist", "index.html")
+  );
 });
 
 export { app };

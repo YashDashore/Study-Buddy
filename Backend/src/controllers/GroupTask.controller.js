@@ -13,7 +13,6 @@ const createGroupTask = AsyncHandler(async (req, res) => {
     if (!deadline)
         throw new ApiError(400, "All fields are required");
 
-    console.log("after all check")
     const user = await User.findById(req.user?._id);
     const resolvedUsers = await Promise.all(
         invitations.map(async (username) => {
