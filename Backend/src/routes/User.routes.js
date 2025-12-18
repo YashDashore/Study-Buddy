@@ -13,7 +13,14 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 // http://localhost:8000/api/v1/users/registration
-router.route("/register").post(RegisterUser) //For normal data/text/JSON etc.
+router.route("/register").post((req, res, next) => {
+        next();
+    },
+    Upload.fields([{
+        name: "Profile_Photo",
+        maxCount: 1
+    }]),
+    RegisterUser) //For normal data/text/JSON etc.
 
 router.route("/registration").post(
     (req, res, next) => {
