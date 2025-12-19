@@ -51,11 +51,11 @@ const RegisterUser = AsyncHandler(async (req, res) => {
         throw new ApiError(409, "User already Existed");
 
 
-    const Profile_Photo_LocalPath = req.files?.Profile_Photo[0]?.path
+    const Profile_Photo_Buffer = req.files?.Profile_Photo?.[0]?.buffer;
 
-    if (!Profile_Photo_LocalPath) // Couldn't get image
+    if (!Profile_Photo_Buffer) // Couldn't get image
         throw new ApiError(402, "Profile Image is required")
-    const Profile_Photo = await UploadOnCloud(Profile_Photo_LocalPath)
+    const Profile_Photo = await UploadOnCloud(Profile_Photo_Buffer)
 
     if (!Profile_Photo)
         throw new ApiError(401, "Image is required")
@@ -65,7 +65,7 @@ const RegisterUser = AsyncHandler(async (req, res) => {
         Password,
         Email,
         Organization,
-        Profile_Photo: Profile_Photo.url,
+        Profile_Photo: Profile_Photo.secure_url,
         Profile_photo_id: Profile_Photo.public_id
     })
 
