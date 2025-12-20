@@ -1,6 +1,7 @@
 # 🧠 StudyBuddy - Track. Plan. Achieve. With your StudyBuddy
 
 Study-Buddy is a full-stack web application designed to help students manage personal academic tasks, collaborate in group projects, track study progress, and stay productive with peer support.
+Live demo link - https://study-buddy-3tys.onrender.com
 
 ---
 
